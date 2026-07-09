@@ -96,49 +96,62 @@ export async function generateCommitMessage(
         ],
     };
 
-    const response = await fetch(apiBaseUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiToken}`,
-        },
-        body: JSON.stringify(requestBody),
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000);
 
-    if (!response.ok) {
-        const errorText = await response.text().catch(() => 'No response body');
-        if (response.status === 401 || response.status === 403) {
-            throw new Error('Authentication failed. Check your API token. Use "OpenCommit: Set API Token" to update it.');
+    try {
+        const response = await fetch(apiBaseUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiToken}`,
+            },
+            body: JSON.stringify(requestBody),
+            signal: controller.signal,
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text().catch(() => 'No response body');
+            if (response.status === 401 || response.status === 403) {
+                throw new Error('Authentication failed. Check your API token. Use "OpenCommit: Set API Token" to update it.');
+            }
+            if (response.status === 429) {
+                throw new Error('Rate limit exceeded. Wait a moment and try again.');
+            }
+            if (response.status === 404) {
+                throw new Error(
+                    `API endpoint not found: ${apiBaseUrl}\n\n` +
+                    'The URL may be wrong. Go to VS Code Settings → OpenCommit → Api Base Url and set:\n' +
+                    '- OpenAI: https://api.openai.com/v1/chat/completions\n' +
+                    '- OpenRouter: https://openrouter.ai/api/v1/chat/completions\n' +
+                    '- LM Studio (local): http://localhost:1234/v1/chat/completions\n' +
+                    '- Ollama (local): http://localhost:11434/v1/chat/completions\n' +
+                    '- Or type "opencode-cli" to use the OpenCode CLI tool.',
+                );
+            }
+            throw new Error(`API error (${response.status}): ${errorText.slice(0, 300)}`);
         }
-        if (response.status === 429) {
-            throw new Error('Rate limit exceeded. Wait a moment and try again.');
+
+        const data = (await response.json()) as OpenCodeResponse;
+
+        if (data.error) {
+            throw new Error(`API error: ${data.error.message}`);
         }
-        if (response.status === 404) {
-            throw new Error(
-                `API endpoint not found: ${apiBaseUrl}\n\n` +
-                'The URL may be wrong. Go to VS Code Settings → OpenCommit → Api Base Url and set:\n' +
-                '- OpenAI: https://api.openai.com/v1/chat/completions\n' +
-                '- OpenRouter: https://openrouter.ai/api/v1/chat/completions\n' +
-                '- LM Studio (local): http://localhost:1234/v1/chat/completions\n' +
-                '- Ollama (local): http://localhost:11434/v1/chat/completions\n' +
-                '- Or type "opencode-cli" to use the OpenCode CLI tool.',
-            );
+
+        const message = data.choices?.[0]?.message?.content;
+        if (!message) {
+            throw new Error('No commit message returned from the API. The response was empty.');
         }
-        throw new Error(`API error (${response.status}): ${errorText.slice(0, 300)}`);
+
+        return cleanCommitMessage(message);
+    } catch (error: any) {
+        if (error?.name === 'AbortError') {
+            throw new Error('Request timed out after 60 seconds. The API server may be slow or unreachable. Try again or switch to a different model.');
+        }
+        throw error;
+    } finally {
+        clearTimeout(timeoutId);
     }
-
-    const data = (await response.json()) as OpenCodeResponse;
-
-    if (data.error) {
-        throw new Error(`API error: ${data.error.message}`);
-    }
-
-    const message = data.choices?.[0]?.message?.content;
-    if (!message) {
-        throw new Error('No commit message returned from the API. The response was empty.');
-    }
-
-    return cleanCommitMessage(message);
 }
 
 /**

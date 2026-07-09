@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getGitDiff, summarizeDiff, getChangedFiles } from './git';
+import { getGitDiff, summarizeDiff } from './git';
 import { generateCommitMessage, getApiToken } from './opencodeClient';
 
 // Curated model list with cost hints — keep in sync with package.json enum
@@ -162,24 +162,14 @@ export async function generateAndInjectCommitMessage(
                     message: `Processing ${sourceLabel}...`,
                 });
 
-                // Step 2: Get changed files for context
-                let changedFiles: string[] = [];
-                try {
-                    changedFiles = await getChangedFiles(workspaceRoot);
-                } catch {
-                    // Non-critical — continue without file list
-                }
-
-                // Step 3: Summarize diff if needed
+                // Step 2: Summarize diff if needed
                 const maxDiffLength = config.get<number>('maxDiffLength', 4000);
                 const processedDiff = summarizeDiff(diffResult.diff, maxDiffLength);
 
-                // Step 4: Update progress
+                // Step 3: Call the API
                 progress.report({
                     message: `Calling AI API (${model})...`,
                 });
-
-                // Step 6: Call the API
                 const commitMessage = await generateCommitMessage(
                     processedDiff,
                     model,
@@ -188,10 +178,10 @@ export async function generateAndInjectCommitMessage(
                     multiLine,
                 );
 
-                // Step 7: Inject the message into the correct Source Control input
+                // Step 4: Inject the message into the correct Source Control input
                 await injectCommitMessage(commitMessage, workspaceRoot);
 
-                // Step 8: Show success
+                // Step 5: Show success
                 const sourceControlLabel =
                     diffResult.source === 'staged'
                         ? 'Staged'

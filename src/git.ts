@@ -1,6 +1,4 @@
-import * as vscode from 'vscode';
-import { simpleGit, SimpleGit, DiffResult } from 'simple-git';
-import * as path from 'path';
+import { simpleGit, SimpleGit } from 'simple-git';
 
 /**
  * Extract git diff from the current workspace.
@@ -11,45 +9,25 @@ import * as path from 'path';
 export async function getGitDiff(workspaceRoot: string): Promise<GitDiffResult> {
     const git: SimpleGit = simpleGit(workspaceRoot);
 
-    // Check if we're in a git repo
-    const isRepo = await git.checkIsRepo();
-    if (!isRepo) {
-        throw new Error('The current workspace is not a git repository.');
-    }
+    const [stagedDiff, unstagedDiff] = await Promise.all([
+        git.diff(['--cached', '--unified=3']),
+        git.diff(['--unified=3']),
+    ]);
 
-    // Get staged diff
-    const stagedDiff = await git.diff(['--cached', '--unified=3']);
     if (stagedDiff && stagedDiff.trim().length > 0) {
-        return {
-            diff: stagedDiff,
-            source: 'staged',
-        };
+        return { diff: stagedDiff, source: 'staged' };
     }
 
-    // Fallback: unstaged changes
-    const unstagedDiff = await git.diff(['--unified=3']);
     if (unstagedDiff && unstagedDiff.trim().length > 0) {
-        return {
-            diff: unstagedDiff,
-            source: 'unstaged',
-        };
+        return { diff: unstagedDiff, source: 'unstaged' };
     }
 
-    // Fallback: check for untracked files by staging them temporarily? No.
-    // Instead, check working tree status
-    const status = await git.status();
-    const hasChanges = status.files.length > 0;
-
-    if (!hasChanges) {
-        throw new Error('No changes detected in the repository. Stage some changes first and try again.');
-    }
-
-    // If we have files but no diff (unlikely), try to get diff of working tree vs HEAD
     const workingDiff = await git.diff(['HEAD', '--unified=3']);
-    return {
-        diff: workingDiff || '',
-        source: 'working-tree',
-    };
+    if (workingDiff && workingDiff.trim().length > 0) {
+        return { diff: workingDiff, source: 'working-tree' };
+    }
+
+    throw new Error('No changes detected in the repository. Stage some changes first and try again.');
 }
 
 /**
@@ -98,17 +76,4 @@ export interface GitDiffResult {
     source: 'staged' | 'unstaged' | 'working-tree';
 }
 
-/**
- * Get the list of changed files for context.
- */
-export async function getChangedFiles(workspaceRoot: string): Promise<string[]> {
-    const git: SimpleGit = simpleGit(workspaceRoot);
-    const status = await git.status();
-    return [
-        ...status.staged,
-        ...status.modified,
-        ...status.not_added,
-        ...status.created,
-        ...status.renamed.map(r => r.to),
-    ];
-}
+
