@@ -194,13 +194,18 @@ export function buildSystemPrompt(conventionalCommit: boolean, multiLine: boolea
 RULES:
 - Output ONLY the commit message text — no explanations, no markdown, no code fences.
 - Use imperative mood ("Add feature" not "Added feature").
-- Keep the subject line under 72 characters.`;
+- Capitalize the first letter of the subject.
+- Do not end the subject line with a period.
+- Keep the subject line under 72 characters.
+- Be specific and descriptive — mention key files, functions, or features changed.
+- One commit does one thing: if the diff spans unrelated changes, describe only the primary change.
+- If the diff includes breaking changes, add "!" after type/scope or a "BREAKING CHANGE:" footer.`;
 
     if (conventionalCommit) {
         prompt += `
-- Use Conventional Commits format: <type>: <description>
-  Types: feat, fix, refactor, perf, style, test, docs, chore, ci, build, revert
-- Include a scope if obvious from the diff: feat(scope): description`;
+- Use Conventional Commits format: <type>(<scope>): <description>
+  Types (lowercase only): feat, fix, refactor, perf, style, test, docs, chore, ci, build, revert
+- Add a scope only when obvious from the diff — avoid overly fine scopes (e.g. "fix: typo" not "fix(readme): typo").`;
     }
 
     if (multiLine) {
@@ -208,16 +213,12 @@ RULES:
 - Format as multi-line:
   Line 1: Subject line (conventional commit format)
   Line 2: Blank
-  Line 3+: Body explaining WHAT changed and WHY (not how)
+  Line 3+: Body explaining WHY the change is needed (background, rationale, design decisions). Do not restate the diff — the code itself is the description.
   Wrap body at 72 characters.`;
     } else {
         prompt += `
 - Output a single-line commit message only.`;
     }
-
-    prompt += `
-- Be specific and descriptive — mention key files, functions, or features changed.
-- If the diff includes breaking changes, add "BREAKING CHANGE:" prefix or "!" after type/scope.`;
 
     return prompt;
 }
