@@ -7,20 +7,20 @@
 > 派生自 [cihatksm/opencommit](https://github.com/cihatksm/opencommit),原作者 Cihat Kösem。
 
 <p align="center">
-  <a href="https://github.com/bcggxx/opencommit/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License"></a>
-  <a href="https://github.com/bcggxx/opencommit"><img src="https://img.shields.io/badge/repo-github-181717?style=for-the-badge&logo=github" alt="Repository"></a>
+  <a href="https://github.com/bcggxx/bettercommit/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License"></a>
+  <a href="https://github.com/bcggxx/bettercommit"><img src="https://img.shields.io/badge/repo-github-181717?style=for-the-badge&logo=github" alt="Repository"></a>
 </p>
 
 |                |                                                                 |
 | -------------- | --------------------------------------------------------------- |
 | **分类**       | SCM 提供程序,其他                                              |
 | **发布者**     | bcggxx                                                          |
-| **许可证**     | [MIT](https://github.com/bcggxx/opencommit/blob/main/LICENSE)   |
+| **许可证**     | [MIT](https://github.com/bcggxx/bettercommit/blob/main/LICENSE)   |
 
 | 资源                                                              |                              |
 | ----------------------------------------------------------------- | ---------------------------- |
-| [代码仓库](https://github.com/bcggxx/opencommit)                 | GitHub 上的源代码            |
-| [问题反馈](https://github.com/bcggxx/opencommit/issues)          | 报告 Bug 与功能请求          |
+| [代码仓库](https://github.com/bcggxx/bettercommit)                 | GitHub 上的源代码            |
+| [问题反馈](https://github.com/bcggxx/bettercommit/issues)          | 报告 Bug 与功能请求          |
 | [作者](https://github.com/bcggxx)                                 | bcggxx                       |
 
 ---

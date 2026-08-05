@@ -7,20 +7,20 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
 > Forked from [cihatksm/opencommit](https://github.com/cihatksm/opencommit) by Cihat Kösem.
 
 <p align="center">
-  <a href="https://github.com/bcggxx/opencommit/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License"></a>
-  <a href="https://github.com/bcggxx/opencommit"><img src="https://img.shields.io/badge/repo-github-181717?style=for-the-badge&logo=github" alt="Repository"></a>
+  <a href="https://github.com/bcggxx/bettercommit/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License"></a>
+  <a href="https://github.com/bcggxx/bettercommit"><img src="https://img.shields.io/badge/repo-github-181717?style=for-the-badge&logo=github" alt="Repository"></a>
 </p>
 
 |                |                                                                 |
 | -------------- | --------------------------------------------------------------- |
 | **Categories** | SCM Providers, Other                                            |
 | **Publisher**  | bcggxx                                                          |
-| **License**    | [MIT](https://github.com/bcggxx/opencommit/blob/main/LICENSE)   |
+| **License**    | [MIT](https://github.com/bcggxx/bettercommit/blob/main/LICENSE)   |
 
 | Resources                                                              |                                |
 | ---------------------------------------------------------------------- | ------------------------------ |
-| [Repository](https://github.com/bcggxx/opencommit)                     | Source code on GitHub          |
-| [Issues](https://github.com/bcggxx/opencommit/issues)                  | Report bugs & request features |
+| [Repository](https://github.com/bcggxx/bettercommit)                     | Source code on GitHub          |
+| [Issues](https://github.com/bcggxx/bettercommit/issues)                  | Report bugs & request features |
 | [Author](https://github.com/bcggxx)                                    | bcggxx                         |
 
 ---

@@ -11,13 +11,13 @@
     },
     "license": "MIT",
     "icon": "icon.png",
-    "homepage": "https://github.com/bcggxx/opencommit#readme",
+    "homepage": "https://github.com/bcggxx/bettercommit#readme",
     "bugs": {
-        "url": "https://github.com/bcggxx/opencommit/issues"
+        "url": "https://github.com/bcggxx/bettercommit/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/bcggxx/opencommit"
+        "url": "https://github.com/bcggxx/bettercommit"
     },
     "engines": {
         "vscode": "^1.125.0"
