@@ -51,9 +51,11 @@ export function activate(context: vscode.ExtensionContext): void {
                     if (!value || value.trim().length === 0) {
                         return 'Token cannot be empty';
                     }
-                    if (value.trim().length < 10) {
-                        return 'Token seems too short. Please enter a valid API token.';
-                    }
+                    // Note: do NOT reject short tokens here. Local providers such as
+                    // Ollama use "ollama" (6 chars) as a placeholder token, and other
+                    // local servers may use similarly short values. Length-based
+                    // validation would block legitimate local setups documented in the
+                    // README. Rely on the empty check above plus server-side auth.
                     return null;
                 },
             });
