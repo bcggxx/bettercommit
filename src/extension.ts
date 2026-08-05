@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext): void {
         vscode.StatusBarAlignment.Left,
         100,
     );
-    statusBarItem.command = 'opencommit.generateCommitMessage';
+    statusBarItem.command = 'bettercommit.generateCommitMessage';
     statusBarItem.text = '✨ AI Commit';
     statusBarItem.tooltip = 'Generate commit message with AI';
     statusBarItem.show();
@@ -18,7 +18,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
     // Register command: Generate Commit Message
     const generateCmd = vscode.commands.registerCommand(
-        'opencommit.generateCommitMessage',
+        'bettercommit.generateCommitMessage',
         async (sourceControl?: vscode.SourceControl) => {
             await generateAndInjectCommitMessage(context, statusBarItem, sourceControl);
         },
@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
     // Register command: Regenerate Commit Message
     const regenerateCmd = vscode.commands.registerCommand(
-        'opencommit.regenerateCommitMessage',
+        'bettercommit.regenerateCommitMessage',
         async (sourceControl?: vscode.SourceControl) => {
             await generateAndInjectCommitMessage(context, statusBarItem, sourceControl);
         },
@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
     // Register command: Set API Token
     const setTokenCmd = vscode.commands.registerCommand(
-        'opencommit.setApiToken',
+        'bettercommit.setApiToken',
         async () => {
             const existingToken = await getApiToken(context.secrets);
 
@@ -63,14 +63,14 @@ export function activate(context: vscode.ExtensionContext): void {
                     // User wants to remove the token
                     await deleteApiToken(context.secrets);
                     vscode.window.showInformationMessage(
-                        'OpenCommit: API token has been removed.',
+                        'BetterCommit: API token has been removed.',
                     );
                 } else {
                     await storeApiToken(context.secrets, token.trim());
                     // Also mask the token in the notification
                     const masked = token.trim().slice(0, 4) + '...' + token.trim().slice(-4);
                     vscode.window.showInformationMessage(
-                        `OpenCommit: API token saved (${masked}).`,
+                        `BetterCommit: API token saved (${masked}).`,
                     );
                 }
             }
@@ -79,7 +79,7 @@ export function activate(context: vscode.ExtensionContext): void {
     context.subscriptions.push(setTokenCmd);
 
     // Log activation (without any sensitive data)
-    console.log('OpenCommit extension activated.');
+    console.log('BetterCommit extension activated.');
 }
 
 export function deactivate(): void {
@@ -87,5 +87,5 @@ export function deactivate(): void {
     if (statusBarItem) {
         statusBarItem.dispose();
     }
-    console.log('OpenCommit extension deactivated.');
+    console.log('BetterCommit extension deactivated.');
 }

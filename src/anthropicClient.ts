@@ -116,7 +116,7 @@ export async function generateCommitMessageViaAnthropic(
             if (response.status === 401 || response.status === 403) {
                 throw new Error(
                     'Anthropic authentication failed. Check your API key. ' +
-                    'Use "OpenCommit: Set API Token" to update it.',
+                    'Use "BetterCommit: Set API Token" to update it.',
                 );
             }
             if (response.status === 429) {

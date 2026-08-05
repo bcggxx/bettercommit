@@ -61,7 +61,7 @@ const MODEL_CHOICES = [
     { label: 'claude-opus-4-1-20250805', description: '💰💰💰 Paid — Anthropic most capable' },
 ];
 
-const LAST_MODEL_KEY = 'opencommit.lastModel';
+const LAST_MODEL_KEY = 'bettercommit.lastModel';
 
 /**
  * Prompt the user to pick an AI model via quick pick.
@@ -120,7 +120,7 @@ export async function generateAndInjectCommitMessage(
 ): Promise<void> {
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (!workspaceFolders || workspaceFolders.length === 0) {
-        vscode.window.showErrorMessage('OpenCommit: No workspace folder is open.');
+        vscode.window.showErrorMessage('BetterCommit: No workspace folder is open.');
         return;
     }
 
@@ -144,11 +144,11 @@ export async function generateAndInjectCommitMessage(
     if (!apiToken) {
         const setTokenAction = 'Set API Token';
         const result = await vscode.window.showErrorMessage(
-            'OpenCommit: No API token configured. Please set your OpenCode API token first.',
+            'BetterCommit: No API token configured. Please set your OpenCode API token first.',
             setTokenAction,
         );
         if (result === setTokenAction) {
-            await vscode.commands.executeCommand('opencommit.setApiToken');
+            await vscode.commands.executeCommand('bettercommit.setApiToken');
         }
         return;
     }
@@ -174,7 +174,7 @@ export async function generateAndInjectCommitMessage(
     await vscode.window.withProgress(
         {
             location: vscode.ProgressLocation.SourceControl,
-            title: 'OpenCommit',
+            title: 'BetterCommit',
             cancellable: false,
         },
         async (progress) => {
@@ -233,12 +233,12 @@ export async function generateAndInjectCommitMessage(
                 setTimeout(() => statusBarItem.hide(), 5000);
 
                 vscode.window.showInformationMessage(
-                    `OpenCommit: Commit message generated from ${sourceControlLabel.toLowerCase()} changes. You can edit it before committing.`,
+                    `BetterCommit: Commit message generated from ${sourceControlLabel.toLowerCase()} changes. You can edit it before committing.`,
                 );
             } catch (error) {
                 statusBarItem.hide();
                 const message = error instanceof Error ? error.message : String(error);
-                vscode.window.showErrorMessage(`OpenCommit: ${message}`);
+                vscode.window.showErrorMessage(`BetterCommit: ${message}`);
             }
         },
     );
@@ -286,6 +286,6 @@ async function injectCommitMessage(message: string, workspaceRoot?: string): Pro
     // Approach 3: Last fallback — copy to clipboard
     await vscode.env.clipboard.writeText(message);
     vscode.window.showInformationMessage(
-        'OpenCommit: Commit message copied to clipboard (could not inject into SCM input).',
+        'BetterCommit: Commit message copied to clipboard (could not inject into SCM input).',
     );
 }

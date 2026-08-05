@@ -34,7 +34,7 @@ export interface OpenCodeResponse {
  */
 export async function getApiToken(secrets: vscode.SecretStorage): Promise<string | undefined> {
     // Prefer SecretStorage (secure)
-    const secretToken = await secrets.get('opencommit.apiToken');
+    const secretToken = await secrets.get('bettercommit.apiToken');
     if (secretToken) {
         return secretToken;
     }
@@ -49,14 +49,14 @@ export async function getApiToken(secrets: vscode.SecretStorage): Promise<string
  * Securely store the API token in VS Code SecretStorage.
  */
 export async function storeApiToken(secrets: vscode.SecretStorage, token: string): Promise<void> {
-    await secrets.store('opencommit.apiToken', token);
+    await secrets.store('bettercommit.apiToken', token);
 }
 
 /**
  * Delete the stored API token.
  */
 export async function deleteApiToken(secrets: vscode.SecretStorage): Promise<void> {
-    await secrets.delete('opencommit.apiToken');
+    await secrets.delete('bettercommit.apiToken');
 }
 
 /**
@@ -113,7 +113,7 @@ export async function generateCommitMessage(
         if (!response.ok) {
             const errorText = await response.text().catch(() => 'No response body');
             if (response.status === 401 || response.status === 403) {
-                throw new Error('Authentication failed. Check your API token. Use "OpenCommit: Set API Token" to update it.');
+                throw new Error('Authentication failed. Check your API token. Use "BetterCommit: Set API Token" to update it.');
             }
             if (response.status === 429) {
                 throw new Error('Rate limit exceeded. Wait a moment and try again.');
@@ -121,7 +121,7 @@ export async function generateCommitMessage(
             if (response.status === 404) {
                 throw new Error(
                     `API endpoint not found: ${apiBaseUrl}\n\n` +
-                    'The URL may be wrong. Go to VS Code Settings → OpenCommit → Api Base Url and set:\n' +
+                    'The URL may be wrong. Go to VS Code Settings → BetterCommit → Api Base Url and set:\n' +
                     '- OpenAI: https://api.openai.com/v1/chat/completions\n' +
                     '- OpenRouter: https://openrouter.ai/api/v1/chat/completions\n' +
                     '- LM Studio (local): http://localhost:1234/v1/chat/completions\n' +
@@ -192,7 +192,7 @@ async function generateViaOpenCodeCli(
         throw new Error(
             `OpenCode CLI failed: ${msg}\n\n` +
             'Make sure OpenCode is installed (https://opencode.ai/docs) and available in your PATH.\n' +
-            'Or switch to an API provider in VS Code Settings → OpenCommit → Api Base Url.',
+            'Or switch to an API provider in VS Code Settings → BetterCommit → Api Base Url.',
         );
     }
 }
