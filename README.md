@@ -50,6 +50,7 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
 - **Model picker** — Choose from 20+ free & paid models, remembered for future use
 - **Any AI provider** — OpenCode Zen (default), OpenAI, OpenRouter, DeepSeek, Groq, Anthropic (native Messages API), Ollama, LM Studio, or local OpenCode CLI
 - **Conventional Commits** — `feat:`, `fix:`, `refactor:` and more
+- **Linux kernel commits** — Optional `<subsystem>: <summary>` format with a `Signed-off-by:` trailer (uses your `git user.name` / `user.email`); overrides Conventional Commits when enabled
 - **Multi-line support** — Optional body explaining WHAT and WHY
 - **Smart diff handling** — Auto-truncates large diffs to fit the API
 - **Secure token storage** — Uses VS Code SecretStorage
@@ -109,6 +110,7 @@ BetterCommit: 🔑 Set API Token
 | `commitMessageGenerator.model`              | `deepseek-v4-flash-free`                      | AI model name                                     |
 | `commitMessageGenerator.promptModel`        | `true`                                          | Show model picker once, then remember the choice                                  |
 | `commitMessageGenerator.conventionalCommit` | `true`                                        | Conventional Commit format                        |
+| `commitMessageGenerator.linuxKernelCommit`  | `false`                                       | Linux kernel `<subsystem>: <summary>` format with `Signed-off-by:` (overrides conventionalCommit) |
 | `commitMessageGenerator.multiLine`          | `false`                                       | Multi-line with body                              |
 | `commitMessageGenerator.maxDiffLength`      | `4000`                                        | Max diff chars sent to API                        |
 

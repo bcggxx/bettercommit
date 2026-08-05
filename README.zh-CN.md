@@ -50,6 +50,7 @@
 - **模型选择器** —— 从 20+ 个免费和付费模型中选择,并记住下次使用
 - **任意 AI 提供商** —— OpenCode Zen(默认)、OpenAI、OpenRouter、DeepSeek、Groq、Anthropic(原生 Messages API)、Ollama、LM Studio 或本地 OpenCode CLI
 - **规范化提交** —— `feat:`、`fix:`、`refactor:` 等
+- **Linux 内核提交** —— 可选的 `<subsystem>: <summary>` 格式,带 `Signed-off-by:` 尾签(使用你的 `git user.name` / `user.email`);启用时覆盖规范化提交
 - **多行支持** —— 可选的正文说明做了什么以及为什么
 - **智能 diff 处理** —— 自动截断大型 diff 以适配 API
 - **安全的令牌存储** —— 使用 VS Code SecretStorage
@@ -109,6 +110,7 @@ BetterCommit: 🔑 Set API Token
 | `commitMessageGenerator.model`             | `deepseek-v4-flash-free`                        | AI 模型名称                                       |
 | `commitMessageGenerator.promptModel`       | `true`                                          | 首次显示模型选择器,选择后记住                            |
 | `commitMessageGenerator.conventionalCommit`| `true`                                          | 规范化提交格式                                    |
+| `commitMessageGenerator.linuxKernelCommit` | `false`                                         | Linux 内核 `<subsystem>: <summary>` 格式,带 `Signed-off-by:`(覆盖 conventionalCommit) |
 | `commitMessageGenerator.multiLine`         | `false`                                         | 带正文的多行格式                                  |
 | `commitMessageGenerator.maxDiffLength`     | `4000`                                          | 发送到 API 的最大 diff 字符数                     |
 
