@@ -88,7 +88,7 @@ BetterCommit: 🔑 Set API Token
 | `commitMessageGenerator.apiBaseUrl`         | `https://opencode.ai/zen/v1/chat/completions` | API endpoint URL                                  |
 | `commitMessageGenerator.apiProvider`        | `auto`                                        | Protocol: `auto`, `openai`, or `anthropic`        |
 | `commitMessageGenerator.model`              | `deepseek-v4-flash-free`                      | AI model name                                     |
-| `commitMessageGenerator.promptModel`        | `true`                                        | Show model picker before generating               |
+| `commitMessageGenerator.promptModel`        | `true`                                          | Show model picker once, then remember the choice                                  |
 | `commitMessageGenerator.conventionalCommit` | `true`                                        | Conventional Commit format                        |
 | `commitMessageGenerator.multiLine`          | `false`                                       | Multi-line with body                              |
 | `commitMessageGenerator.maxDiffLength`      | `4000`                                        | Max diff chars sent to API                        |

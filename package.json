@@ -144,7 +144,7 @@
                 "commitMessageGenerator.promptModel": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Show a model picker every time before generating a commit message. Disable to always use the default model silently."
+                    "description": "Show the model picker before the next generation. After you pick a model it is remembered and this setting is automatically turned off; turn it back on later to choose a different model."
                 },
                 "commitMessageGenerator.conventionalCommit": {
                     "type": "boolean",

@@ -88,7 +88,7 @@ BetterCommit: 🔑 Set API Token
 | `commitMessageGenerator.apiBaseUrl`        | `https://opencode.ai/zen/v1/chat/completions`   | API 端点 URL                                      |
 | `commitMessageGenerator.apiProvider`       | `auto`                                          | 协议:`auto`、`openai` 或 `anthropic`             |
 | `commitMessageGenerator.model`             | `deepseek-v4-flash-free`                        | AI 模型名称                                       |
-| `commitMessageGenerator.promptModel`       | `true`                                          | 生成前显示模型选择器                              |
+| `commitMessageGenerator.promptModel`       | `true`                                          | 首次显示模型选择器,选择后记住                            |
 | `commitMessageGenerator.conventionalCommit`| `true`                                          | 规范化提交格式                                    |
 | `commitMessageGenerator.multiLine`         | `false`                                         | 带正文的多行格式                                  |
 | `commitMessageGenerator.maxDiffLength`     | `4000`                                          | 发送到 API 的最大 diff 字符数                     |
