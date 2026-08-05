@@ -99,6 +99,7 @@ BetterCommit: 🔑 Set API Token
 | ---------------------- | ------------------------------------------------- | ------------- |
 | OpenCode Zen (default) | `https://opencode.ai/zen/v1/chat/completions`     | `auto`/`openai` |
 | OpenCode Zen Go        | `https://opencode.ai/zen/go/v1/chat/completions`  | `auto`/`openai` |
+| OpenCode Zen Go (Messages API) | `https://opencode.ai/zen/go/v1/messages`   | `auto`/`anthropic` |
 | OpenAI                 | `https://api.openai.com/v1/chat/completions`      | `auto`/`openai` |
 | OpenRouter             | `https://openrouter.ai/api/v1/chat/completions`   | `auto`/`openai` |
 | Groq                   | `https://api.groq.com/openai/v1/chat/completions` | `auto`/`openai` |
