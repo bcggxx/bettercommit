@@ -1,9 +1,9 @@
 {
-    "name": "opencommit",
-    "displayName": "OpenCommit — AI Commit Message Generator",
+    "name": "opencommit-ai",
+    "displayName": "OpenCommit AI — AI Commit Message Generator",
     "description": "Generate conventional commit messages from git diffs using AI (OpenCode Zen, OpenAI, OpenRouter & more) — directly in VS Code's Source Control panel. Forked from cihatksm/opencommit.",
     "version": "1.3.1",
-    "publisher": "cihatksm",
+    "publisher": "bcggxx",
     "author": {
         "name": "bcggxx",
         "email": "191667089+bcggxx@users.noreply.github.com",
@@ -170,7 +170,7 @@
         "watch": "tsc -watch -p ./",
         "lint": "eslint src --ext ts",
         "package": "npx @vscode/vsce package",
-        "publish": "powershell -ExecutionPolicy Bypass -File ./scripts/publish-marketplace.ps1",
+        "publish": "vsce publish",
         "build-install": "powershell -ExecutionPolicy Bypass -File ./scripts/build-install.ps1",
         "build-install:minor": "powershell -ExecutionPolicy Bypass -File ./scripts/build-install.ps1 minor",
         "build-install:major": "powershell -ExecutionPolicy Bypass -File ./scripts/build-install.ps1 major"
