@@ -142,7 +142,7 @@ npm run compile
 npm run package
 ```
 
-或使用一体化构建并安装的脚本:
+或使用一体化构建并安装的脚本(**仅限 Windows** —— 它内部调用 PowerShell,并通过 `code --install-extension` 把 VSIX 装进本地 VS Code;在 macOS/Linux 上请使用上面的三条命令,或从 GitHub Actions 的 CI 构建产物中下载 VSIX):
 
 ```bash
 npm run build-install          # patch 版本号

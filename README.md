@@ -142,7 +142,7 @@ npm run compile
 npm run package
 ```
 
-Or use the all-in-one build & install script:
+Or use the all-in-one build & install script (**Windows only** — it shells out to PowerShell and runs `code --install-extension` to install the VSIX into the local VS Code; on macOS/Linux use the three commands above, or grab the CI-built VSIX artifact from GitHub Actions):
 
 ```bash
 npm run build-install          # patch bump
