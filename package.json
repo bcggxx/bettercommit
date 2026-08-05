@@ -151,6 +151,11 @@
                     "default": true,
                     "description": "Generate messages in Conventional Commit format (e.g., feat:, fix:, refactor:)."
                 },
+                "commitMessageGenerator.linuxKernelCommit": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Generate messages in the Linux kernel commit format: \"<subsystem>: <summary>\" with a Signed-off-by trailer (uses your git user.name / user.email). Overrides conventionalCommit when enabled."
+                },
                 "commitMessageGenerator.multiLine": {
                     "type": "boolean",
                     "default": false,

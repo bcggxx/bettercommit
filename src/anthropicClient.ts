@@ -82,9 +82,11 @@ export async function generateCommitMessageViaAnthropic(
     apiToken: string,
     conventionalCommit: boolean,
     multiLine: boolean,
+    linuxKernelCommit: boolean,
+    identity: string | undefined,
 ): Promise<string> {
     const apiBaseUrl = resolveAnthropicEndpoint();
-    const systemPrompt = buildSystemPrompt(conventionalCommit, multiLine);
+    const systemPrompt = buildSystemPrompt(conventionalCommit, multiLine, linuxKernelCommit, identity);
     const userPrompt = buildUserPrompt(diff);
 
     const requestBody: AnthropicRequest = {

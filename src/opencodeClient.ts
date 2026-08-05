@@ -67,14 +67,16 @@ export async function generateCommitMessage(
     apiToken: string,
     conventionalCommit: boolean,
     multiLine: boolean,
+    linuxKernelCommit: boolean,
+    identity: string | undefined,
 ): Promise<string> {
     const apiBaseUrl = getApiBaseUrl();
-    const systemPrompt = buildSystemPrompt(conventionalCommit, multiLine);
+    const systemPrompt = buildSystemPrompt(conventionalCommit, multiLine, linuxKernelCommit, identity);
     const userPrompt = buildUserPrompt(diff);
 
     // Try OpenCode CLI first if the user has configured it
     if (apiBaseUrl === 'opencode-cli') {
-        return generateViaOpenCodeCli(diff, conventionalCommit, multiLine);
+        return generateViaOpenCodeCli(diff, conventionalCommit, multiLine, linuxKernelCommit, identity);
     }
 
     // Standard OpenAI-compatible API call
@@ -146,16 +148,18 @@ export async function generateCommitMessage(
 
 /**
  * Use the locally installed OpenCode CLI to generate a commit message.
+ * Reuses the shared prompt builders so behavior matches the API path.
  */
 async function generateViaOpenCodeCli(
     diff: string,
     conventionalCommit: boolean,
     multiLine: boolean,
+    linuxKernelCommit: boolean,
+    identity: string | undefined,
 ): Promise<string> {
-    const format = conventionalCommit ? 'conventional' : 'simple';
-    const style = multiLine ? 'multi-line' : 'single-line';
-
-    const prompt = `Generate a ${format} ${style} git commit message for this diff. Output ONLY the message, nothing else:\n\n${diff}`;
+    const systemPrompt = buildSystemPrompt(conventionalCommit, multiLine, linuxKernelCommit, identity);
+    const userPrompt = buildUserPrompt(diff);
+    const prompt = `${systemPrompt}\n\n${userPrompt}`;
 
     // Escape for shell
     const escaped = prompt.replace(/"/g, '\\"').replace(/\n/g, '\\n');
@@ -188,7 +192,12 @@ async function generateViaOpenCodeCli(
     }
 }
 
-export function buildSystemPrompt(conventionalCommit: boolean, multiLine: boolean): string {
+export function buildSystemPrompt(
+    conventionalCommit: boolean,
+    multiLine: boolean,
+    linuxKernelCommit: boolean,
+    identity: string | undefined,
+): string {
     let prompt = `You are an expert git commit message generator. Your ONLY job is to output a perfect git commit message based on the provided diff.
 
 RULES:
@@ -196,28 +205,54 @@ RULES:
 - Use imperative mood ("Add feature" not "Added feature").
 - Capitalize the first letter of the subject.
 - Do not end the subject line with a period.
-- Keep the subject line under 72 characters.
 - Be specific and descriptive — mention key files, functions, or features changed.
-- One commit does one thing: if the diff spans unrelated changes, describe only the primary change.
+- One commit does one thing: if the diff spans unrelated changes, describe only the primary change.`;
+
+    if (linuxKernelCommit) {
+        // Linux kernel commit format — overrides conventional.
+        const limit = 75;
+        prompt += `
+- Use the Linux kernel commit format: <subsystem>: <summary>
+  Derive the subsystem from the touched file path (e.g. drivers/gpu/drm/i915, net, fs, mm, kernel/sched, arch/x86).
+- Keep the subject line under ${limit} characters; wrap body lines at ${limit} characters.`;
+    } else {
+        prompt += `
+- Keep the subject line under 72 characters.
 - If the diff includes breaking changes, add "!" after type/scope or a "BREAKING CHANGE:" footer.`;
 
-    if (conventionalCommit) {
-        prompt += `
+        if (conventionalCommit) {
+            prompt += `
 - Use Conventional Commits format: <type>(<scope>): <description>
   Types (lowercase only): feat, fix, refactor, perf, style, test, docs, chore, ci, build, revert
 - Add a scope only when obvious from the diff — avoid overly fine scopes (e.g. "fix: typo" not "fix(readme): typo").`;
+        }
     }
 
-    if (multiLine) {
+    if (multiLine || linuxKernelCommit) {
         prompt += `
 - Format as multi-line:
-  Line 1: Subject line (conventional commit format)
+  Line 1: Subject line
   Line 2: Blank
-  Line 3+: Body explaining WHY the change is needed (background, rationale, design decisions). Do not restate the diff — the code itself is the description.
-  Wrap body at 72 characters.`;
+  Line 3+: Body explaining WHY the change is needed (background, rationale, design decisions). Do not restate the diff — the code itself is the description.`;
+        if (linuxKernelCommit) {
+            prompt += `
+  Add a "Fixes:" tag if this fixes a regression (format: Fixes: <12-char hash> ("original subject")).
+  Add "Cc: stable@vger.kernel.org" if the fix should be backported to stable kernels.`;
+        }
+        prompt += `
+  Wrap body at ${linuxKernelCommit ? 75 : 72} characters.`;
     } else {
         prompt += `
 - Output a single-line commit message only.`;
+    }
+
+    if (linuxKernelCommit) {
+        prompt += `
+- End with a "Signed-off-by" trailer. ${
+            identity
+                ? `Use this identity exactly: Signed-off-by: ${identity}`
+                : 'No git identity was found — output "Signed-off-by: Your Name <you@example.com>" as a placeholder so the user can fill it in.'
+        }`;
     }
 
     return prompt;

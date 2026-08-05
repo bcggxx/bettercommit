@@ -76,4 +76,19 @@ export interface GitDiffResult {
     source: 'staged' | 'unstaged' | 'working-tree';
 }
 
+/**
+ * Read the git identity (user.name + user.email) for the given repo.
+ * Returns a "Name <email>" trailer string, or undefined if either field
+ * is missing (e.g. not configured at any scope).
+ */
+export async function getGitIdentity(workspaceRoot: string): Promise<string | undefined> {
+    const git: SimpleGit = simpleGit(workspaceRoot);
+    const name = (await git.raw(['config', 'user.name'])).trim();
+    const email = (await git.raw(['config', 'user.email'])).trim();
+    if (!name || !email) {
+        return undefined;
+    }
+    return `${name} <${email}>`;
+}
+
 

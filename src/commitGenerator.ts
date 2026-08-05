@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getGitDiff, summarizeDiff } from './git';
+import { getGitDiff, getGitIdentity, summarizeDiff } from './git';
 import { generateCommitMessage, getApiToken } from './opencodeClient';
 import { generateCommitMessageViaAnthropic } from './anthropicClient';
 
@@ -165,6 +165,11 @@ export async function generateAndInjectCommitMessage(
     // Read remaining settings
     const conventionalCommit = config.get<boolean>('conventionalCommit', true);
     const multiLine = config.get<boolean>('multiLine', false);
+    const linuxKernelCommit = config.get<boolean>('linuxKernelCommit', false);
+
+    // Git identity is needed for the Linux kernel Signed-off-by trailer.
+    // Only read it when relevant to avoid an extra git call for the common case.
+    const identity = linuxKernelCommit ? await getGitIdentity(workspaceRoot) : undefined;
 
     // Show loading state
     statusBarItem.text = '✨ Analyzing...';
@@ -210,6 +215,8 @@ export async function generateAndInjectCommitMessage(
                         apiToken,
                         conventionalCommit,
                         multiLine,
+                        linuxKernelCommit,
+                        identity,
                     )
                     : await generateCommitMessage(
                         processedDiff,
@@ -217,6 +224,8 @@ export async function generateAndInjectCommitMessage(
                         apiToken,
                         conventionalCommit,
                         multiLine,
+                        linuxKernelCommit,
+                        identity,
                     );
 
                 // Step 4: Inject the message into the correct Source Control input
