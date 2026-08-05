@@ -27,6 +27,23 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
 
 ---
 
+## 📑 Table of Contents
+
+- [✨ Features](#-features)
+- [🚀 Getting Started](#-getting-started)
+  - [1. Get an API Token](#1-get-an-api-token)
+  - [2. Configure Settings](#2-configure-settings)
+  - [3. Set Your Token](#3-set-your-token)
+  - [4. Generate a Commit Message](#4-generate-a-commit-message)
+- [⚙️ Settings](#️-settings)
+  - [Provider Examples](#provider-examples)
+  - [Using Anthropic (Claude)](#using-anthropic-claude)
+- [🔐 Security](#-security)
+- [📦 Build](#-build)
+- [📄 License](#-license)
+
+---
+
 ## ✨ Features
 
 - **One-click commit messages** — Sparkle icon in the Source Control panel, plus a `✨ AI Commit` status bar item
