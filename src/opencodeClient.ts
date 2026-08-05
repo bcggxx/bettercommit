@@ -197,7 +197,7 @@ async function generateViaOpenCodeCli(
     }
 }
 
-function buildSystemPrompt(conventionalCommit: boolean, multiLine: boolean): string {
+export function buildSystemPrompt(conventionalCommit: boolean, multiLine: boolean): string {
     let prompt = `You are an expert git commit message generator. Your ONLY job is to output a perfect git commit message based on the provided diff.
 
 RULES:
@@ -231,7 +231,7 @@ RULES:
     return prompt;
 }
 
-function buildUserPrompt(diff: string): string {
+export function buildUserPrompt(diff: string): string {
     return `Here is the git diff. Generate the commit message now:
 
 \`\`\`diff
@@ -239,7 +239,7 @@ ${diff}
 \`\`\``;
 }
 
-function cleanCommitMessage(message: string): string {
+export function cleanCommitMessage(message: string): string {
     // Remove code fences if the AI wrapped the message
     let cleaned = message
         .replace(/^```[a-z]*\n?/gm, '')
