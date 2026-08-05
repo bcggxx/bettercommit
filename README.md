@@ -175,4 +175,16 @@ npm run build-install:major    # major bump
 
 ## 📄 License
 
-MIT
+Released under the [MIT License](./LICENSE) — © 2026 Cihat Kösem (cihatksm) and bcggxx.
+
+**You can** (commercial or private, no need to ask):
+
+- Use, copy, modify, merge, and distribute this software — including in closed-source or commercial products
+- Sublicense and/or sell copies
+- Fork it and build your own extension on top
+
+**You must**:
+
+- Keep the copyright notice and this permission notice in all copies or substantial portions of the Software
+
+**No warranty** — the software is provided "AS IS", without any warranty of merchantability, fitness for a particular purpose, or non-infringement. The authors are not liable for any claim, damages, or other liability arising from its use.
