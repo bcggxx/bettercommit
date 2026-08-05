@@ -27,7 +27,7 @@
 
 ## ✨ 特性
 
-- **一键生成提交信息** —— 源代码管理面板中的按钮
+- **一键生成提交信息** —— 源代码管理面板中的 ✨ 图标按钮,以及左侧状态栏上的 `✨ AI Commit` 状态栏项
 - **模型选择器** —— 从 20+ 个免费和付费模型中选择,并记住下次使用
 - **任意 AI 提供商** —— OpenCode Zen(默认)、OpenAI、OpenRouter、DeepSeek、Groq、Anthropic(原生 Messages API)、Ollama、LM Studio 或本地 OpenCode CLI
 - **规范化提交** —— `feat:`、`fix:`、`refactor:` 等
@@ -74,7 +74,7 @@ BetterCommit: Set API Token
 
 ### 4. 生成提交信息
 
-- 在源代码管理中暂存一些更改,然后点击 **✨ AI Commit** 按钮,或
+- 在源代码管理中暂存一些更改,然后点击源代码管理面板中的 **✨** 图标,或左侧状态栏上的 **✨ AI Commit** 状态栏项,或
 - 从命令面板运行 `BetterCommit: Generate Commit`
 - 首次使用时会出现模型选择器 —— 选择你偏好的模型(会被记住)
 - 如需重新生成信息,运行 `BetterCommit: Regenerate`

@@ -27,7 +27,7 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
 
 ## ✨ Features
 
-- **One-click commit messages** — Button in the Source Control panel
+- **One-click commit messages** — Sparkle icon in the Source Control panel, plus a `✨ AI Commit` status bar item
 - **Model picker** — Choose from 20+ free & paid models, remembered for future use
 - **Any AI provider** — OpenCode Zen (default), OpenAI, OpenRouter, DeepSeek, Groq, Anthropic (native Messages API), Ollama, LM Studio, or local OpenCode CLI
 - **Conventional Commits** — `feat:`, `fix:`, `refactor:` and more
@@ -74,7 +74,7 @@ BetterCommit: Set API Token
 
 ### 4. Generate a Commit Message
 
-- Stage some changes in Source Control, then click the **✨ AI Commit** button, OR
+- Stage some changes in Source Control, then click the **✨** (sparkle) icon in the Source Control panel, or the **✨ AI Commit** status bar item on the left status bar, OR
 - Run `BetterCommit: Generate Commit` from the Command Palette
 - On first use, a model picker will appear — choose your preferred model (it will be remembered)
 - To regenerate the message, run `BetterCommit: Regenerate`
