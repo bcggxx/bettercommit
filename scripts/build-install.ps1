@@ -1,4 +1,4 @@
-# OpenCommit — Build, Package & Install
+# BetterCommit — Build, Package & Install
 # Usage: .\scripts\build-install.ps1 [patch|minor|major]
 # Default bump: patch
 param(
@@ -10,7 +10,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSCommandPath | Split-Path -Parent
 Set-Location $projectRoot
 
-Write-Host "`n=== OpenCommit Build & Install ===" -ForegroundColor Cyan
+Write-Host "`n=== BetterCommit Build & Install ===" -ForegroundColor Cyan
 
 # 1. Read current version
 $pkg = Get-Content package.json | ConvertFrom-Json

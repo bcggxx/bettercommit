@@ -1,11 +1,11 @@
-# OpenCommit — Publish to VS Code Marketplace
+# BetterCommit — Publish to VS Code Marketplace
 # Reads PAT_TOKEN from .env file
 $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $PSCommandPath | Split-Path -Parent
 Set-Location $projectRoot
 
-Write-Host "`n=== OpenCommit Marketplace Publish ===" -ForegroundColor Cyan
+Write-Host "`n=== BetterCommit Marketplace Publish ===" -ForegroundColor Cyan
 
 # Read .env
 $envPath = Join-Path $projectRoot ".env"
