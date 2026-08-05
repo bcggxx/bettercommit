@@ -30,19 +30,9 @@ export interface OpenCodeResponse {
 
 /**
  * Securely retrieve the API token from VS Code SecretStorage.
- * Falls back to workspace configuration for backward compatibility.
  */
 export async function getApiToken(secrets: vscode.SecretStorage): Promise<string | undefined> {
-    // Prefer SecretStorage (secure)
-    const secretToken = await secrets.get('bettercommit.apiToken');
-    if (secretToken) {
-        return secretToken;
-    }
-
-    // Fallback to configuration (less secure, but convenient for team sharing)
-    const config = vscode.workspace.getConfiguration('commitMessageGenerator');
-    const configToken = config.get<string>('apiToken');
-    return configToken || undefined;
+    return secrets.get('bettercommit.apiToken');
 }
 
 /**
