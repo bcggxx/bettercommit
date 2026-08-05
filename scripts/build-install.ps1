@@ -23,7 +23,7 @@ npm version $Bump --no-git-tag-version 2>&1 | Out-Null
 
 $pkg = Get-Content package.json | ConvertFrom-Json
 $newVersion = $pkg.version
-$vsixName = "opencommit-$newVersion.vsix"
+$vsixName = "bettercommit-$newVersion.vsix"
 
 # 3. Compile TypeScript
 Write-Host "[3/4] Compiling TypeScript..." -ForegroundColor Yellow
