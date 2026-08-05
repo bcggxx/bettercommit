@@ -69,15 +69,15 @@
 打开命令面板(`Ctrl+Shift+P`)并运行:
 
 ```
-BetterCommit: Set API Token
+BetterCommit: 🔑 Set API Token
 ```
 
 ### 4. 生成提交信息
 
 - 在源代码管理中暂存一些更改,然后点击源代码管理面板中的 **✨** 图标,或左侧状态栏上的 **✨ AI Commit** 状态栏项,或
-- 从命令面板运行 `BetterCommit: Generate Commit`
+- 从命令面板运行 `BetterCommit: ✨ Generate Commit`
 - 首次使用时会出现模型选择器 —— 选择你偏好的模型(会被记住)
-- 如需重新生成信息,运行 `BetterCommit: Regenerate`
+- 如需重新生成信息,运行 `BetterCommit: ✨ Regenerate`
 
 ---
 
