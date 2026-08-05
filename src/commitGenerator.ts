@@ -1,6 +1,34 @@
 import * as vscode from 'vscode';
 import { getGitDiff, summarizeDiff } from './git';
 import { generateCommitMessage, getApiToken } from './opencodeClient';
+import { generateCommitMessageViaAnthropic } from './anthropicClient';
+
+type ApiProvider = 'openai' | 'anthropic';
+
+/**
+ * Resolve which API protocol to use.
+ *  1. Honor an explicit `apiProvider` setting when it is not "auto".
+ *  2. Otherwise auto-detect from `apiBaseUrl`:
+ *       - contains "anthropic.com"  -> Anthropic native Messages API
+ *       - anything else             -> OpenAI-compatible chat/completions
+ *  3. The "opencode-cli" shortcut always stays on the OpenAI path
+ *     (it is handled inside opencodeClient and never reaches the network).
+ */
+function resolveApiProvider(config: vscode.WorkspaceConfiguration): ApiProvider {
+    const explicit = config.get<string>('apiProvider', 'auto');
+    if (explicit === 'anthropic') {
+        return 'anthropic';
+    }
+    if (explicit === 'openai') {
+        return 'openai';
+    }
+
+    const apiBaseUrl = config.get<string>('apiBaseUrl', '');
+    if (apiBaseUrl.includes('anthropic.com')) {
+        return 'anthropic';
+    }
+    return 'openai';
+}
 
 // Curated model list with cost hints — keep in sync with package.json enum
 const MODEL_CHOICES = [
@@ -27,6 +55,10 @@ const MODEL_CHOICES = [
     { label: 'gpt-4o-mini', description: '💰 Paid — OpenAI small' },
     { label: 'gpt-4o', description: '💰💰💰 Paid — OpenAI flagship' },
     { label: 'claude-3-5-sonnet', description: '💰💰💰 Paid — Anthropic' },
+    { label: 'claude-3-5-sonnet-20241022', description: '💰💰💰 Paid — Anthropic (native Messages API)' },
+    { label: 'claude-3-5-haiku-20241022', description: '💰 Paid — Anthropic fast' },
+    { label: 'claude-sonnet-4-20250514', description: '💰💰💰 Paid — Anthropic flagship' },
+    { label: 'claude-opus-4-1-20250805', description: '💰💰💰 Paid — Anthropic most capable' },
 ];
 
 const LAST_MODEL_KEY = 'opencommit.lastModel';
@@ -167,16 +199,25 @@ export async function generateAndInjectCommitMessage(
                 const processedDiff = summarizeDiff(diffResult.diff, maxDiffLength);
 
                 // Step 3: Call the API
+                const provider = resolveApiProvider(config);
                 progress.report({
-                    message: `Calling AI API (${model})...`,
+                    message: `Calling AI API (${model} via ${provider})...`,
                 });
-                const commitMessage = await generateCommitMessage(
-                    processedDiff,
-                    model,
-                    apiToken,
-                    conventionalCommit,
-                    multiLine,
-                );
+                const commitMessage = provider === 'anthropic'
+                    ? await generateCommitMessageViaAnthropic(
+                        processedDiff,
+                        model,
+                        apiToken,
+                        conventionalCommit,
+                        multiLine,
+                    )
+                    : await generateCommitMessage(
+                        processedDiff,
+                        model,
+                        apiToken,
+                        conventionalCommit,
+                        multiLine,
+                    );
 
                 // Step 4: Inject the message into the correct Source Control input
                 await injectCommitMessage(commitMessage, workspaceRoot);
