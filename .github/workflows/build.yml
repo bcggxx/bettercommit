@@ -27,6 +27,14 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Bump patch version
+        if: ${{ github.event.inputs.create_release == 'true' }}
+        run: |
+          old_version=$(node -p "require('./package.json').version")
+          npm version patch --no-git-tag-version
+          new_version=$(node -p "require('./package.json').version")
+          echo "Bumped version: $old_version -> $new_version"
+
       - name: Install dependencies
         run: npm ci
 
@@ -49,6 +57,17 @@ jobs:
             *.vsix
           if-no-files-found: error
           retention-days: 30
+
+      - name: Commit version bump & push tag
+        if: ${{ github.event.inputs.create_release == 'true' }}
+        run: |
+          git config user.name "bcggxx"
+          git config user.email "191667089+bcggxx@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "chore(release): bump version to ${{ steps.version.outputs.version }}"
+          git tag ${{ steps.version.outputs.tag }}
+          git push origin HEAD:${{ github.ref_name }}
+          git push origin ${{ steps.version.outputs.tag }}
 
       - name: Create GitHub Release
         if: ${{ github.event.inputs.create_release == 'true' }}
