@@ -156,11 +156,12 @@ export async function generateCommitMessageViaAnthropic(
         }
 
         return cleanCommitMessage(message);
-    } catch (error: any) {
-        if (error?.name === 'AbortError') {
+    } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') {
             throw new Error(
                 'Request to Anthropic timed out after 60 seconds. ' +
                 'The API may be slow or unreachable. Try again or switch models.',
+                { cause: error },
             );
         }
         throw error;

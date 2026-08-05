@@ -263,7 +263,7 @@ async function injectCommitMessage(message: string, workspaceRoot?: string): Pro
                 let targetRepo = gitApi.repositories[0];
                 if (workspaceRoot) {
                     const matched = gitApi.repositories.find(
-                        (r: any) => r.rootUri?.fsPath === workspaceRoot,
+                        (r: { rootUri?: { fsPath?: string } }) => r.rootUri?.fsPath === workspaceRoot,
                     );
                     if (matched) {
                         targetRepo = matched;

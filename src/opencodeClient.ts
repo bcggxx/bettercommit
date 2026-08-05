@@ -144,9 +144,9 @@ export async function generateCommitMessage(
         }
 
         return cleanCommitMessage(message);
-    } catch (error: any) {
-        if (error?.name === 'AbortError') {
-            throw new Error('Request timed out after 60 seconds. The API server may be slow or unreachable. Try again or switch to a different model.');
+    } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') {
+            throw new Error('Request timed out after 60 seconds. The API server may be slow or unreachable. Try again or switch to a different model.', { cause: error });
         }
         throw error;
     } finally {
@@ -193,6 +193,7 @@ async function generateViaOpenCodeCli(
             `OpenCode CLI failed: ${msg}\n\n` +
             'Make sure OpenCode is installed (https://opencode.ai/docs) and available in your PATH.\n' +
             'Or switch to an API provider in VS Code Settings → BetterCommit → Api Base Url.',
+            { cause: error },
         );
     }
 }
