@@ -8,7 +8,9 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
 
 <p align="center">
   <a href="https://github.com/bcggxx/bettercommit/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License"></a>
+  <a href="https://github.com/bcggxx/bettercommit"><img src="https://img.shields.io/github/package-json/v/bcggxx/bettercommit?style=for-the-badge&label=version&color=blue" alt="Version"></a>
   <a href="https://github.com/bcggxx/bettercommit"><img src="https://img.shields.io/badge/repo-github-181717?style=for-the-badge&logo=github" alt="Repository"></a>
+  <a href="https://github.com/bcggxx/bettercommit"><img src="https://badges.pufler.dev/visits/bcggxx/bettercommit?style=for-the-badge" alt="Visits"></a>
 </p>
 
 |                |                                                                 |
