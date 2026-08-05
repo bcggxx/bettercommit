@@ -22,9 +22,13 @@ Get-Content $envPath | ForEach-Object {
     }
 }
 
-if (-not $token -or $token -eq 'bos_token_buraya_yaz') {
+if (-not $token -or $token -eq 'your_azure_devops_pat_here') {
     Write-Host "ERROR: PAT_TOKEN not set in .env" -ForegroundColor Red
     Write-Host "Edit .env and replace with your Azure DevOps PAT" -ForegroundColor Gray
+    # TODO(publisher): The URL below still points at the original fork author's
+    # Azure DevOps organization (cihatksm). Before publishing to the Marketplace
+    # under the `bcggxx` publisher, replace it with your own Azure DevOps org URL
+    # and create a PAT with the "Marketplace > Manage" scope there.
     Write-Host "  Get one at: https://dev.azure.com/cihatksm → User Settings → PAT" -ForegroundColor Gray
     Write-Host "  Scope: Marketplace > Manage" -ForegroundColor Gray
     exit 1
