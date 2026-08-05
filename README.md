@@ -1,5 +1,7 @@
 # OpenCommit — AI Commit Message Generator
 
+[English](./README.md) | [简体中文](./README.zh-CN.md)
+
 Generate **conventional commit messages** from your git diffs using AI (OpenCode Zen, OpenAI, OpenRouter, DeepSeek, Groq, Anthropic, Ollama, or local OpenCode CLI) — directly in VS Code's Source Control panel.
 
 <p align="center">
