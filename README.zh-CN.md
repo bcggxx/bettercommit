@@ -4,25 +4,24 @@
 
 使用 AI(OpenCode Zen、OpenAI、OpenRouter、DeepSeek、Groq、Anthropic、Ollama 或本地 OpenCode CLI)从你的 git diff 中生成**规范化提交信息** —— 直接在 VS Code 的源代码管理面板中完成。
 
+> 派生自 [cihatksm/opencommit](https://github.com/cihatksm/opencommit),原作者 Cihat Kösem。
+
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=cihatksm.opencommit"><img src="https://img.shields.io/visual-studio-marketplace/v/cihatksm.opencommit?label=VS%20Marketplace&style=for-the-badge&color=007ACC" alt="Marketplace"></a>
-  <a href="https://github.com/cihatksm/opencommit/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License"></a>
-  <a href="https://github.com/cihatksm/opencommit"><img src="https://img.shields.io/badge/repo-github-181717?style=for-the-badge&logo=github" alt="Repository"></a>
+  <a href="https://github.com/bcggxx/opencommit/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License"></a>
+  <a href="https://github.com/bcggxx/opencommit"><img src="https://img.shields.io/badge/repo-github-181717?style=for-the-badge&logo=github" alt="Repository"></a>
 </p>
 
 |                |                                                                 |
 | -------------- | --------------------------------------------------------------- |
-| **标识符**     | `cihatksm.opencommit`                                           |
 | **分类**       | SCM 提供程序,其他                                              |
-| **发布者**     | [Cihat Kösem](https://cihatksm.com)                             |
-| **许可证**     | [MIT](https://github.com/cihatksm/opencommit/blob/main/LICENSE) |
+| **发布者**     | bcggxx                                                          |
+| **许可证**     | [MIT](https://github.com/bcggxx/opencommit/blob/main/LICENSE)   |
 
-| 资源                                                                                   |                              |
-| -------------------------------------------------------------------------------------- | ---------------------------- |
-| [代码仓库](https://github.com/cihatksm/opencommit)                                     | GitHub 上的源代码            |
-| [问题反馈](https://github.com/cihatksm/opencommit/issues)                              | 报告 Bug 与功能请求          |
-| [市场](https://marketplace.visualstudio.com/items?itemName=cihatksm.opencommit)       | 从 VS 市场安装               |
-| [作者](https://cihatksm.com)                                                           | 更多 Cihat Kösem 的作品      |
+| 资源                                                              |                              |
+| ----------------------------------------------------------------- | ---------------------------- |
+| [代码仓库](https://github.com/bcggxx/opencommit)                 | GitHub 上的源代码            |
+| [问题反馈](https://github.com/bcggxx/opencommit/issues)          | 报告 Bug 与功能请求          |
+| [作者](https://github.com/bcggxx)                                 | bcggxx                       |
 
 ---
 

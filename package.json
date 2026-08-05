@@ -1,23 +1,23 @@
 {
     "name": "opencommit",
     "displayName": "OpenCommit — AI Commit Message Generator",
-    "description": "Generate conventional commit messages from git diffs using AI (OpenCode Zen, OpenAI, OpenRouter & more) — directly in VS Code's Source Control panel. By cihatksm.",
+    "description": "Generate conventional commit messages from git diffs using AI (OpenCode Zen, OpenAI, OpenRouter & more) — directly in VS Code's Source Control panel. Forked from cihatksm/opencommit.",
     "version": "1.3.1",
     "publisher": "cihatksm",
     "author": {
-        "name": "Cihat Kösem",
-        "email": "me@cihatksm.com",
-        "url": "https://cihatksm.com"
+        "name": "bcggxx",
+        "email": "191667089+bcggxx@users.noreply.github.com",
+        "url": "https://github.com/bcggxx"
     },
     "license": "MIT",
     "icon": "icon.png",
-    "homepage": "https://github.com/cihatksm/opencommit#readme",
+    "homepage": "https://github.com/bcggxx/opencommit#readme",
     "bugs": {
-        "url": "https://github.com/cihatksm/opencommit/issues"
+        "url": "https://github.com/bcggxx/opencommit/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/cihatksm/opencommit"
+        "url": "https://github.com/bcggxx/opencommit"
     },
     "engines": {
         "vscode": "^1.125.0"

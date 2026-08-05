@@ -4,25 +4,24 @@
 
 Generate **conventional commit messages** from your git diffs using AI (OpenCode Zen, OpenAI, OpenRouter, DeepSeek, Groq, Anthropic, Ollama, or local OpenCode CLI) — directly in VS Code's Source Control panel.
 
+> Forked from [cihatksm/opencommit](https://github.com/cihatksm/opencommit) by Cihat Kösem.
+
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=cihatksm.opencommit"><img src="https://img.shields.io/visual-studio-marketplace/v/cihatksm.opencommit?label=VS%20Marketplace&style=for-the-badge&color=007ACC" alt="Marketplace"></a>
-  <a href="https://github.com/cihatksm/opencommit/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License"></a>
-  <a href="https://github.com/cihatksm/opencommit"><img src="https://img.shields.io/badge/repo-github-181717?style=for-the-badge&logo=github" alt="Repository"></a>
+  <a href="https://github.com/bcggxx/opencommit/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License"></a>
+  <a href="https://github.com/bcggxx/opencommit"><img src="https://img.shields.io/badge/repo-github-181717?style=for-the-badge&logo=github" alt="Repository"></a>
 </p>
 
 |                |                                                                 |
 | -------------- | --------------------------------------------------------------- |
-| **Identifier** | `cihatksm.opencommit`                                           |
 | **Categories** | SCM Providers, Other                                            |
-| **Publisher**  | [Cihat Kösem](https://cihatksm.com)                             |
-| **License**    | [MIT](https://github.com/cihatksm/opencommit/blob/main/LICENSE) |
+| **Publisher**  | bcggxx                                                          |
+| **License**    | [MIT](https://github.com/bcggxx/opencommit/blob/main/LICENSE)   |
 
-| Resources                                                                              |                                |
-| -------------------------------------------------------------------------------------- | ------------------------------ |
-| [Repository](https://github.com/cihatksm/opencommit)                                   | Source code on GitHub          |
-| [Issues](https://github.com/cihatksm/opencommit/issues)                                | Report bugs & request features |
-| [Marketplace](https://marketplace.visualstudio.com/items?itemName=cihatksm.opencommit) | Install from VS Marketplace    |
-| [Author](https://cihatksm.com)                                                         | More by Cihat Kösem            |
+| Resources                                                              |                                |
+| ---------------------------------------------------------------------- | ------------------------------ |
+| [Repository](https://github.com/bcggxx/opencommit)                     | Source code on GitHub          |
+| [Issues](https://github.com/bcggxx/opencommit/issues)                  | Report bugs & request features |
+| [Author](https://github.com/bcggxx)                                    | bcggxx                         |
 
 ---
 
