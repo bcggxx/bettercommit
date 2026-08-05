@@ -1,6 +1,6 @@
 # OpenCommit — AI Commit Message Generator
 
-Generate **conventional commit messages** from your git diffs using AI (OpenCode Zen, OpenAI, OpenRouter, DeepSeek, Groq, Ollama, or local OpenCode CLI) — directly in VS Code's Source Control panel.
+Generate **conventional commit messages** from your git diffs using AI (OpenCode Zen, OpenAI, OpenRouter, DeepSeek, Groq, Anthropic, Ollama, or local OpenCode CLI) — directly in VS Code's Source Control panel.
 
 <p align="center">
   <a href="https://marketplace.visualstudio.com/items?itemName=cihatksm.opencommit"><img src="https://img.shields.io/visual-studio-marketplace/v/cihatksm.opencommit?label=VS%20Marketplace&style=for-the-badge&color=007ACC" alt="Marketplace"></a>
@@ -28,7 +28,7 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
 
 - **One-click commit messages** — Button in the Source Control panel
 - **Model picker** — Choose from 20+ free & paid models, remembered for future use
-- **Any AI provider** — OpenCode Zen (default), OpenAI, OpenRouter, DeepSeek, Groq, Ollama, LM Studio, or local OpenCode CLI
+- **Any AI provider** — OpenCode Zen (default), OpenAI, OpenRouter, DeepSeek, Groq, Anthropic (native Messages API), Ollama, LM Studio, or local OpenCode CLI
 - **Conventional Commits** — `feat:`, `fix:`, `refactor:` and more
 - **Multi-line support** — Optional body explaining WHAT and WHY
 - **Smart diff handling** — Auto-truncates large diffs to fit the API
@@ -48,6 +48,7 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
 - **OpenRouter** → https://openrouter.ai/keys
 - **Groq** → https://console.groq.com/keys
 - **DeepSeek** → https://platform.deepseek.com/api_keys
+- **Anthropic** → https://console.anthropic.com/settings/keys (uses the native Messages API)
 - **Ollama** (local) → no key needed, use `ollama` as token
 
 ### 2. Configure Settings
@@ -81,28 +82,45 @@ OpenCommit: Set API Token
 
 ## ⚙️ Settings
 
-| Setting                                     | Default                                       | Description                         |
-| ------------------------------------------- | --------------------------------------------- | ----------------------------------- |
-| `commitMessageGenerator.apiBaseUrl`         | `https://opencode.ai/zen/v1/chat/completions` | API endpoint (OpenAI-compatible)    |
-| `commitMessageGenerator.model`              | `deepseek-v4-flash-free`                      | AI model name                       |
-| `commitMessageGenerator.promptModel`        | `true`                                        | Show model picker before generating |
-| `commitMessageGenerator.conventionalCommit` | `true`                                        | Conventional Commit format          |
-| `commitMessageGenerator.multiLine`          | `false`                                       | Multi-line with body                |
-| `commitMessageGenerator.maxDiffLength`      | `4000`                                        | Max diff chars sent to API          |
+| Setting                                     | Default                                       | Description                                       |
+| ------------------------------------------- | --------------------------------------------- | ------------------------------------------------- |
+| `commitMessageGenerator.apiBaseUrl`         | `https://opencode.ai/zen/v1/chat/completions` | API endpoint URL                                  |
+| `commitMessageGenerator.apiProvider`        | `auto`                                        | Protocol: `auto`, `openai`, or `anthropic`        |
+| `commitMessageGenerator.model`              | `deepseek-v4-flash-free`                      | AI model name                                     |
+| `commitMessageGenerator.promptModel`        | `true`                                        | Show model picker before generating               |
+| `commitMessageGenerator.conventionalCommit` | `true`                                        | Conventional Commit format                        |
+| `commitMessageGenerator.multiLine`          | `false`                                       | Multi-line with body                              |
+| `commitMessageGenerator.maxDiffLength`      | `4000`                                        | Max diff chars sent to API                        |
 
 ### Provider Examples
 
-| Provider               | API Base URL                                      |
-| ---------------------- | ------------------------------------------------- |
-| OpenCode Zen (default) | `https://opencode.ai/zen/v1/chat/completions`     |
-| OpenCode Zen Go        | `https://opencode.ai/zen/go/v1/chat/completions`  |
-| OpenAI                 | `https://api.openai.com/v1/chat/completions`      |
-| OpenRouter             | `https://openrouter.ai/api/v1/chat/completions`   |
-| Groq                   | `https://api.groq.com/openai/v1/chat/completions` |
-| DeepSeek               | `https://api.deepseek.com/v1/chat/completions`    |
-| Ollama (local)         | `http://localhost:11434/v1/chat/completions`      |
-| LM Studio (local)      | `http://localhost:1234/v1/chat/completions`       |
-| OpenCode CLI           | `opencode-cli` (runs locally)                     |
+| Provider               | API Base URL                                      | `apiProvider` |
+| ---------------------- | ------------------------------------------------- | ------------- |
+| OpenCode Zen (default) | `https://opencode.ai/zen/v1/chat/completions`     | `auto`/`openai` |
+| OpenCode Zen Go        | `https://opencode.ai/zen/go/v1/chat/completions`  | `auto`/`openai` |
+| OpenAI                 | `https://api.openai.com/v1/chat/completions`      | `auto`/`openai` |
+| OpenRouter             | `https://openrouter.ai/api/v1/chat/completions`   | `auto`/`openai` |
+| Groq                   | `https://api.groq.com/openai/v1/chat/completions` | `auto`/`openai` |
+| DeepSeek               | `https://api.deepseek.com/v1/chat/completions`    | `auto`/`openai` |
+| Anthropic (native)     | `https://api.anthropic.com/v1/messages`           | `auto`/`anthropic` |
+| Ollama (local)         | `http://localhost:11434/v1/chat/completions`      | `auto`/`openai` |
+| LM Studio (local)      | `http://localhost:1234/v1/chat/completions`       | `auto`/`openai` |
+| OpenCode CLI           | `opencode-cli` (runs locally)                     | `auto`/`openai` |
+
+### Using Anthropic (Claude)
+
+OpenCommit ships a dedicated adapter for the Anthropic **Messages API** so Claude models work without an OpenAI-compatible proxy. When `apiProvider` is `auto`, the adapter activates automatically whenever `apiBaseUrl` contains `anthropic.com`.
+
+Quick setup:
+
+1. Get an API key at https://console.anthropic.com/settings/keys
+2. Run `OpenCommit: Set API Token` and paste the key
+3. In Settings, set:
+   - `Api Base Url` → `https://api.anthropic.com/v1/messages`
+   - `Model` → e.g. `claude-sonnet-4-20250514`, `claude-3-5-sonnet-20241022`, `claude-3-5-haiku-20241022`, or `claude-opus-4-1-20250805`
+4. (Optional) Set `Api Provider` to `anthropic` to force the Messages API regardless of URL
+
+The adapter handles the protocol differences for you: the system prompt is moved into the top-level `system` field, `max_tokens` is sent as required, auth uses the `x-api-key` header (plus the mandatory `anthropic-version: 2023-06-01` header), and the response is read from the `content[].text` block array.
 
 ---
 
