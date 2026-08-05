@@ -1,4 +1,4 @@
-# OpenCommit — AI 提交信息生成器
+# BetterCommit — AI 提交信息生成器
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -54,7 +54,7 @@
 
 ### 2. 配置设置
 
-打开 VS Code 设置(`Ctrl+,`)并搜索 `OpenCommit`:
+打开 VS Code 设置(`Ctrl+,`)并搜索 `BetterCommit`:
 
 | 设置               | 默认值                                        |
 | ------------------ | --------------------------------------------- |
@@ -69,15 +69,15 @@
 打开命令面板(`Ctrl+Shift+P`)并运行:
 
 ```
-OpenCommit: Set API Token
+BetterCommit: Set API Token
 ```
 
 ### 4. 生成提交信息
 
 - 在源代码管理中暂存一些更改,然后点击 **✨ AI Commit** 按钮,或
-- 从命令面板运行 `OpenCommit: Generate Commit`
+- 从命令面板运行 `BetterCommit: Generate Commit`
 - 首次使用时会出现模型选择器 —— 选择你偏好的模型(会被记住)
-- 如需重新生成信息,运行 `OpenCommit: Regenerate`
+- 如需重新生成信息,运行 `BetterCommit: Regenerate`
 
 ---
 
@@ -110,12 +110,12 @@ OpenCommit: Set API Token
 
 ### 使用 Anthropic(Claude)
 
-OpenCommit 内置了针对 Anthropic **Messages API** 的专用适配器,因此 Claude 模型无需 OpenAI 兼容代理即可工作。当 `apiProvider` 为 `auto` 时,只要 `apiBaseUrl` 中包含 `anthropic.com`,适配器就会自动激活。
+BetterCommit 内置了针对 Anthropic **Messages API** 的专用适配器,因此 Claude 模型无需 OpenAI 兼容代理即可工作。当 `apiProvider` 为 `auto` 时,只要 `apiBaseUrl` 中包含 `anthropic.com`,适配器就会自动激活。
 
 快速设置:
 
 1. 在 https://console.anthropic.com/settings/keys 获取 API 密钥
-2. 运行 `OpenCommit: Set API Token` 并粘贴密钥
+2. 运行 `BetterCommit: Set API Token` 并粘贴密钥
 3. 在设置中:
    - `Api Base Url` → `https://api.anthropic.com/v1/messages`
    - `Model` → 例如 `claude-sonnet-4-20250514`、`claude-3-5-sonnet-20241022`、`claude-3-5-haiku-20241022` 或 `claude-opus-4-1-20250805`

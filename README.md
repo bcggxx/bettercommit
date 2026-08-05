@@ -1,4 +1,4 @@
-# OpenCommit — AI Commit Message Generator
+# BetterCommit — AI Commit Message Generator
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -54,7 +54,7 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
 
 ### 2. Configure Settings
 
-Open VS Code Settings (`Ctrl+,`) and search for `OpenCommit`:
+Open VS Code Settings (`Ctrl+,`) and search for `BetterCommit`:
 
 | Setting               | Default value                                 |
 | --------------------- | --------------------------------------------- |
@@ -69,15 +69,15 @@ Or for local OpenCode CLI, set `Api Base Url` to `opencode-cli`.
 Open the Command Palette (`Ctrl+Shift+P`) and run:
 
 ```
-OpenCommit: Set API Token
+BetterCommit: Set API Token
 ```
 
 ### 4. Generate a Commit Message
 
 - Stage some changes in Source Control, then click the **✨ AI Commit** button, OR
-- Run `OpenCommit: Generate Commit` from the Command Palette
+- Run `BetterCommit: Generate Commit` from the Command Palette
 - On first use, a model picker will appear — choose your preferred model (it will be remembered)
-- To regenerate the message, run `OpenCommit: Regenerate`
+- To regenerate the message, run `BetterCommit: Regenerate`
 
 ---
 
@@ -110,12 +110,12 @@ OpenCommit: Set API Token
 
 ### Using Anthropic (Claude)
 
-OpenCommit ships a dedicated adapter for the Anthropic **Messages API** so Claude models work without an OpenAI-compatible proxy. When `apiProvider` is `auto`, the adapter activates automatically whenever `apiBaseUrl` contains `anthropic.com`.
+BetterCommit ships a dedicated adapter for the Anthropic **Messages API** so Claude models work without an OpenAI-compatible proxy. When `apiProvider` is `auto`, the adapter activates automatically whenever `apiBaseUrl` contains `anthropic.com`.
 
 Quick setup:
 
 1. Get an API key at https://console.anthropic.com/settings/keys
-2. Run `OpenCommit: Set API Token` and paste the key
+2. Run `BetterCommit: Set API Token` and paste the key
 3. In Settings, set:
    - `Api Base Url` → `https://api.anthropic.com/v1/messages`
    - `Model` → e.g. `claude-sonnet-4-20250514`, `claude-3-5-sonnet-20241022`, `claude-3-5-haiku-20241022`, or `claude-opus-4-1-20250805`
