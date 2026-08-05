@@ -89,7 +89,22 @@
                 "commitMessageGenerator.apiBaseUrl": {
                     "type": "string",
                     "default": "https://opencode.ai/zen/v1/chat/completions",
-                    "description": "The OpenAI-compatible API endpoint URL.\nOpenCode Zen tiers:\n- Free: https://opencode.ai/zen/v1/chat/completions\n- Go: https://opencode.ai/zen/go/v1/chat/completions\n- Go (Messages API): https://opencode.ai/zen/go/v1/messages\n\nOther providers:\n- OpenAI: https://api.openai.com/v1/chat/completions\n- OpenRouter: https://openrouter.ai/api/v1/chat/completions\n- Groq: https://api.groq.com/openai/v1/chat/completions\n- DeepSeek: https://api.deepseek.com/v1/chat/completions\n- Ollama (local): http://localhost:11434/v1/chat/completions\n- Or type \"opencode-cli\" to use the local OpenCode CLI tool."
+                    "description": "The API endpoint URL.\nOpenCode Zen tiers:\n- Free: https://opencode.ai/zen/v1/chat/completions\n- Go: https://opencode.ai/zen/go/v1/chat/completions\n- Go (Messages API): https://opencode.ai/zen/go/v1/messages\n\nOther providers:\n- OpenAI: https://api.openai.com/v1/chat/completions\n- OpenRouter: https://openrouter.ai/api/v1/chat/completions\n- Groq: https://api.groq.com/openai/v1/chat/completions\n- DeepSeek: https://api.deepseek.com/v1/chat/completions\n- Anthropic: https://api.anthropic.com/v1/messages\n- Ollama (local): http://localhost:11434/v1/chat/completions\n- Or type \"opencode-cli\" to use the local OpenCode CLI tool."
+                },
+                "commitMessageGenerator.apiProvider": {
+                    "type": "string",
+                    "default": "auto",
+                    "enum": [
+                        "auto",
+                        "openai",
+                        "anthropic"
+                    ],
+                    "enumDescriptions": [
+                        "Auto-detect from apiBaseUrl (anthropic.com -> Anthropic Messages API, otherwise OpenAI-compatible).",
+                        "Always use the OpenAI-compatible chat/completions client.",
+                        "Always use the native Anthropic Messages API client (x-api-key + anthropic-version headers, top-level system field)."
+                    ],
+                    "description": "Which API protocol to use when calling the model. Use \"auto\" to detect from apiBaseUrl, or force \"anthropic\" to use the native Messages API."
                 },
                 "commitMessageGenerator.model": {
                     "type": "string",
@@ -119,6 +134,10 @@
                         "gpt-4o-mini",
                         "gpt-4o",
                         "claude-3-5-sonnet",
+                        "claude-3-5-sonnet-20241022",
+                        "claude-3-5-haiku-20241022",
+                        "claude-sonnet-4-20250514",
+                        "claude-opus-4-1-20250805",
                         "custom (type in settings.json)"
                     ]
                 },
