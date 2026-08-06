@@ -2,7 +2,7 @@
     "name": "bettercommit",
     "displayName": "BetterCommit — AI Commit Message Generator",
     "description": "Generate conventional commit messages from git diffs using AI (OpenCode Zen, OpenAI, OpenRouter & more) — directly in VS Code's Source Control panel. Forked from cihatksm/opencommit.",
-    "version": "1.3.4",
+    "version": "1.3.5",
     "publisher": "bcggxx",
     "author": {
         "name": "bcggxx",
