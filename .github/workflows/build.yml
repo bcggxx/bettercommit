@@ -79,3 +79,21 @@ jobs:
           fail_on_unmatched_files: true
           files: |
             *.vsix
+
+      # Publish to Open VSX (no Azure DevOps / credit card required).
+      # Create the namespace once at https://open-vsx.org, then add the
+      # access token as the OVSX_TOKEN repository secret. If the secret is
+      # not configured this step is skipped, so the workflow stays safe.
+      - name: Publish to Open VSX
+        if: ${{ github.event.inputs.create_release == 'true' }}
+        env:
+          OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
+        run: |
+          if [ -z "$OVSX_TOKEN" ]; then
+            echo "OVSX_TOKEN not set — skipping Open VSX publish"
+            exit 0
+          fi
+          # create-namespace is idempotent: it errors if the namespace
+          # already exists, so tolerate the failure on subsequent runs.
+          npx ovsx create-namespace bcggxx -p "$OVSX_TOKEN" || true
+          npx ovsx publish *.vsix -p "$OVSX_TOKEN"
