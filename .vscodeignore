@@ -7,4 +7,3 @@ tsconfig.json
 **/*.ts
 **/*.map
 .git
-scripts/publish-marketplace.ps1
