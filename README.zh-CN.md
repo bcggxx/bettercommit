@@ -64,12 +64,12 @@
 
 **默认提供商为 OpenCode Zen**(提供免费额度)。选择一个提供商:
 
-- **OpenCode Zen** → https://opencode.ai/zen(含免费额度)
+- **OpenCode Zen** → https://opencode.ai/zen (含免费额度)
 - **OpenAI** → https://platform.openai.com/api-keys
 - **OpenRouter** → https://openrouter.ai/keys
 - **Groq** → https://console.groq.com/keys
 - **DeepSeek** → https://platform.deepseek.com/api_keys
-- **Anthropic** → https://console.anthropic.com/settings/keys(使用原生 Messages API)
+- **Anthropic** → https://console.anthropic.com/settings/keys (使用原生 Messages API)
 - **Ollama**(本地) → 无需密钥,使用 `ollama` 作为令牌
 
 ### 2. 配置设置
