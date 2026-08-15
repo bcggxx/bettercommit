@@ -13,6 +13,8 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
   <a href="https://github.com/bcggxx/bettercommit"><img src="https://badges.pufler.dev/visits/bcggxx/bettercommit?style=for-the-badge" alt="Visits"></a>
 </p>
 
+<a href="https://deepwiki.com/bcggxx/bettercommit"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+
 |                |                                                                 |
 | -------------- | --------------------------------------------------------------- |
 | **Categories** | SCM Providers, Other                                            |
