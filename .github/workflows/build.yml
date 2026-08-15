@@ -39,7 +39,7 @@ jobs:
         run: npm ci
 
       - name: Package VSIX
-        run: npx @vscode/vsce package
+        run: npx @vscode/vsce@3.9.2 package
 
       - name: Read version
         id: version

@@ -32,7 +32,7 @@ if ($LASTEXITCODE -ne 0) { throw "Compilation failed" }
 
 # 4. Package & Install
 Write-Host "[4/4] Packaging & installing $vsixName ..." -ForegroundColor Yellow
-npx @vscode/vsce package 2>&1 | Out-Null
+npx @vscode/vsce@3.9.2 package 2>&1 | Out-Null
 if ($LASTEXITCODE -ne 0) { throw "Packaging failed" }
 
 code --install-extension $vsixName
