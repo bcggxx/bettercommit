@@ -27,8 +27,6 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
 
 ---
 
-
-
 ## 📑 Table of Contents
 
 - [✨ Features](#-features)
