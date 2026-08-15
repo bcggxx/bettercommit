@@ -37,9 +37,6 @@
         "onStartupFinished"
     ],
     "main": "./out/extension.js",
-    "enabledApiProposals": [
-        "contribSourceControlInputBoxMenu"
-    ],
     "contributes": {
         "commands": [
             {
@@ -60,14 +57,6 @@
         ],
         "menus": {
             "scm/title": [
-                {
-                    "command": "bettercommit.generateCommitMessage",
-                    "when": "scmProvider == git",
-                    "group": "navigation",
-                    "icon": "$(sparkle)"
-                }
-            ],
-            "scm/inputBox": [
                 {
                     "command": "bettercommit.generateCommitMessage",
                     "when": "scmProvider == git",
