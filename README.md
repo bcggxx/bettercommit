@@ -9,7 +9,6 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
 <p align="center">
   <a href="https://github.com/bcggxx/bettercommit/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License"></a>
   <a href="https://github.com/bcggxx/bettercommit"><img src="https://img.shields.io/github/package-json/v/bcggxx/bettercommit?style=for-the-badge&label=version&color=blue" alt="Version"></a>
-<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fbcggxx%2Fbettercommit?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbcggxx%2Fbettercommit.svg?type=shield"/></a>
   <a href="https://github.com/bcggxx/bettercommit"><img src="https://img.shields.io/badge/repo-github-181717?style=for-the-badge&logo=github" alt="Repository"></a>
   <a href="https://github.com/bcggxx/bettercommit"><img src="https://badges.pufler.dev/visits/bcggxx/bettercommit?style=for-the-badge" alt="Visits"></a>
 </p>
@@ -29,7 +28,6 @@ Generate **conventional commit messages** from your git diffs using AI (OpenCode
 ---
 
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbcggxx%2Fbettercommit.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbcggxx%2Fbettercommit?ref=badge_large)
 
 ## 📑 Table of Contents
 
@@ -192,3 +190,5 @@ Released under the [MIT License](./LICENSE) — © 2026 Cihat Kösem (cihatksm) 
 - Keep the copyright notice and this permission notice in all copies or substantial portions of the Software
 
 **No warranty** — the software is provided "AS IS", without any warranty of merchantability, fitness for a particular purpose, or non-infringement. The authors are not liable for any claim, damages, or other liability arising from its use.
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbcggxx%2Fbettercommit.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbcggxx%2Fbettercommit?ref=badge_large)
