@@ -13,6 +13,8 @@
   <a href="https://github.com/bcggxx/bettercommit"><img src="https://badges.pufler.dev/visits/bcggxx/bettercommit?style=for-the-badge" alt="Visits"></a>
 </p>
 
+<a href="https://deepwiki.com/bcggxx/bettercommit">📖 Ask DeepWiki</a>
+
 |                |                                                                 |
 | -------------- | --------------------------------------------------------------- |
 | **分类**       | SCM 提供程序,其他                                              |
@@ -189,3 +191,5 @@ npm run build-install:major    # major 版本号
 - 在所有副本或实质部分中保留版权声明与本许可声明
 
 **无担保** —— 本软件按"现状"提供,不提供任何适销性、特定用途适用性或不侵权的担保。作者不对因使用本软件而产生的任何索赔、损害或其他责任负责。
+
+[FOSSA license scan status](https://app.fossa.com/projects/git%2Bgithub.com%2Fbcggxx%2Fbettercommit?ref=badge_large)
