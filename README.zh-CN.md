@@ -97,6 +97,7 @@ BetterCommit: 🔑 Set API Token
 - 在源代码管理中暂存一些更改,然后点击源代码管理面板中的 **✨** 图标,或左侧状态栏上的 **✨ AI Commit** 状态栏项,或
 - 从命令面板运行 `BetterCommit: ✨ Generate Commit`
 - 首次使用时会出现模型选择器 —— 选择你偏好的模型(会被记住)
+- 如需稍后切换模型,运行 `BetterCommit: 🔄 Select Model` —— 模型列表每次都会从你的 API 端点实时拉取,也随时可以手动输入自定义模型名
 - 如需重新生成信息,运行 `BetterCommit: ✨ Regenerate`
 
 ---

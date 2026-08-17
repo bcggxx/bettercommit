@@ -99,6 +99,7 @@ BetterCommit: 🔑 Set API Token
 - Stage some changes in Source Control, then click the **✨** (sparkle) icon in the Source Control panel, or the **✨ AI Commit** status bar item on the left status bar, OR
 - Run `BetterCommit: ✨ Generate Commit` from the Command Palette
 - On first use, a model picker will appear — choose your preferred model (it will be remembered)
+- To switch models later, run `BetterCommit: 🔄 Select Model` — the list is re-fetched live from your API endpoint every time, and you can always enter a custom model name
 - To regenerate the message, run `BetterCommit: ✨ Regenerate`
 
 ---
