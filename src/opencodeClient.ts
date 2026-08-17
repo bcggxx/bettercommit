@@ -57,6 +57,70 @@ export function getApiBaseUrl(): string {
     return config.get<string>('apiBaseUrl', DEFAULT_API_URL);
 }
 
+export interface ModelListResponse {
+    data?: Array<{ id?: string }>;
+}
+
+/**
+ * Derive the model-listing endpoint from a chat/completions URL.
+ * e.g. https://api.openai.com/v1/chat/completions -> https://api.openai.com/v1/models
+ */
+export function deriveModelsUrl(apiBaseUrl: string): string {
+    const url = apiBaseUrl.trim().replace(/\/+$/, '');
+    if (url.endsWith('/chat/completions')) {
+        return url.slice(0, -'/chat/completions'.length) + '/models';
+    }
+    return url + '/models';
+}
+
+/**
+ * Fetch the available model IDs from the configured OpenAI-compatible
+ * endpoint (GET {base}/models) so the model picker can offer live data
+ * instead of a hardcoded list.
+ */
+export async function fetchAvailableModels(apiToken: string): Promise<string[]> {
+    const apiBaseUrl = getApiBaseUrl();
+    if (apiBaseUrl === 'opencode-cli') {
+        throw new Error(
+            'OpenCode CLI mode does not expose a model list. Enter a custom model name or switch to an API provider.',
+        );
+    }
+
+    const modelsUrl = deriveModelsUrl(apiBaseUrl);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+    try {
+        const response = await fetch(modelsUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${apiToken}`,
+            },
+            signal: controller.signal,
+        });
+
+        if (!response.ok) {
+            throw new Error(`Model list request failed (${response.status}) at ${modelsUrl}`);
+        }
+
+        const data = (await response.json()) as ModelListResponse;
+        const models = (data.data ?? [])
+            .map(entry => entry?.id)
+            .filter((id): id is string => typeof id === 'string' && id.length > 0);
+        if (models.length === 0) {
+            throw new Error(`No models returned by ${modelsUrl}`);
+        }
+        return [...new Set(models)].sort((a, b) => a.localeCompare(b));
+    } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') {
+            throw new Error(`Fetching model list timed out: ${modelsUrl}`, { cause: error });
+        }
+        throw error;
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
 /**
  * Call the AI API (OpenAI-compatible) to generate a commit message from git diff.
  * Falls back to OpenCode CLI if the user has it installed and configured.

@@ -73,6 +73,61 @@ function resolveAnthropicEndpoint(): string {
 }
 
 /**
+ * Derive the model-listing endpoint from an Anthropic messages URL.
+ * e.g. https://api.anthropic.com/v1/messages -> https://api.anthropic.com/v1/models
+ */
+export function deriveAnthropicModelsUrl(messagesUrl: string): string {
+    const url = messagesUrl.trim().replace(/\/+$/, '');
+    if (url.endsWith('/messages')) {
+        return url.slice(0, -'/messages'.length) + '/models';
+    }
+    return url + '/models';
+}
+
+/**
+ * Fetch the available model IDs from the Anthropic List Models API
+ * (GET /v1/models) so the model picker can offer live data instead of
+ * a hardcoded list.
+ * Spec: https://docs.anthropic.com/en/api/models-list
+ */
+export async function fetchAvailableModelsViaAnthropic(apiToken: string): Promise<string[]> {
+    const modelsUrl = deriveAnthropicModelsUrl(resolveAnthropicEndpoint()) + '?limit=1000';
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+    try {
+        const response = await fetch(modelsUrl, {
+            method: 'GET',
+            headers: {
+                'x-api-key': apiToken,
+                'anthropic-version': ANTHROPIC_VERSION,
+            },
+            signal: controller.signal,
+        });
+
+        if (!response.ok) {
+            throw new Error(`Anthropic model list request failed (${response.status}) at ${modelsUrl}`);
+        }
+
+        const data = (await response.json()) as { data?: Array<{ id?: string }> };
+        const models = (data.data ?? [])
+            .map(entry => entry?.id)
+            .filter((id): id is string => typeof id === 'string' && id.length > 0);
+        if (models.length === 0) {
+            throw new Error(`No models returned by ${modelsUrl}`);
+        }
+        return [...new Set(models)].sort((a, b) => a.localeCompare(b));
+    } catch (error: unknown) {
+        if (error instanceof Error && error.name === 'AbortError') {
+            throw new Error(`Fetching Anthropic model list timed out: ${modelsUrl}`, { cause: error });
+        }
+        throw error;
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
+/**
  * Call the Anthropic Messages API to generate a commit message from a git diff.
  * Reuses the shared prompt builders so behavior stays consistent across providers.
  */
