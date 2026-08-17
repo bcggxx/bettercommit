@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { getGitDiff, getGitIdentity, summarizeDiff } from './git';
-import { generateCommitMessage, getApiToken } from './opencodeClient';
-import { generateCommitMessageViaAnthropic } from './anthropicClient';
+import { generateCommitMessage, getApiToken, fetchAvailableModels } from './opencodeClient';
+import { generateCommitMessageViaAnthropic, fetchAvailableModelsViaAnthropic } from './anthropicClient';
 
 type ApiProvider = 'openai' | 'anthropic';
 
@@ -30,8 +30,9 @@ function resolveApiProvider(config: vscode.WorkspaceConfiguration): ApiProvider 
     return 'openai';
 }
 
-// Curated model list with cost hints — keep in sync with package.json enum
-const MODEL_CHOICES = [
+// Curated fallback model list with cost hints — only used when the live
+// model list cannot be fetched from the configured API endpoint.
+const FALLBACK_MODEL_CHOICES = [
     { label: 'deepseek-v4-flash-free', description: '🆓 Free — fast, lightweight' },
     { label: 'deepseek-v4-flash', description: '💰 Paid — fast' },
     { label: 'deepseek-v4-pro', description: '💰💰 Paid — powerful' },
@@ -63,47 +64,174 @@ const MODEL_CHOICES = [
 
 const LAST_MODEL_KEY = 'bettercommit.lastModel';
 
+const CUSTOM_MODEL_LABEL = '$(edit) Enter custom model name...';
+
+interface ModelQuickPickItem extends vscode.QuickPickItem {
+    model?: string;
+}
+
+/**
+ * Fetch the live model list from the currently configured API endpoint.
+ * Supports both the OpenAI-compatible protocol (GET {base}/models) and the
+ * native Anthropic protocol (GET /v1/models). Returns an empty list with
+ * the failure reason when the endpoint cannot list models.
+ */
+async function fetchModelsFromApi(
+    config: vscode.WorkspaceConfiguration,
+    apiToken: string,
+): Promise<{ models: string[]; error?: string }> {
+    const provider = resolveApiProvider(config);
+    try {
+        const models = provider === 'anthropic'
+            ? await fetchAvailableModelsViaAnthropic(apiToken)
+            : await fetchAvailableModels(apiToken);
+        return { models };
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        return { models: [], error: message };
+    }
+}
+
 /**
  * Prompt the user to pick an AI model via quick pick.
- * Pre-selects the last used model or config default.
- * Returns the chosen model label, or undefined if the user cancelled.
+ * The model list is fetched live from the configured API endpoint every
+ * time the picker is shown, plus an entry to type any custom model name.
+ * Falls back to the curated list when the endpoint cannot list models.
+ * Returns the chosen model name, or undefined if the user cancelled.
  */
-async function promptModel(config: vscode.WorkspaceConfiguration, context: vscode.ExtensionContext): Promise<string | undefined> {
+async function promptModel(
+    config: vscode.WorkspaceConfiguration,
+    context: vscode.ExtensionContext,
+    apiToken: string,
+    force: boolean = false,
+): Promise<string | undefined> {
     const promptModelSetting = config.get<boolean>('promptModel', true);
     const configDefault = config.get<string>('model', 'deepseek-v4-flash-free');
     const lastUsed = context.globalState.get<string>(LAST_MODEL_KEY);
 
-    // Already chose before — use it silently
-    if (!promptModelSetting && lastUsed) {
+    // Already chose before and no explicit switch — use it silently
+    if (!force && !promptModelSetting && lastUsed) {
         return lastUsed;
     }
 
-    // First time: ask once, then never ask again
     const defaultModel = lastUsed || configDefault;
 
-    const pick = await vscode.window.showQuickPick(
-        MODEL_CHOICES.map(m => ({
-            label: m.label,
-            description: m.description,
-            picked: m.label === defaultModel,
-        })),
+    // Fetch the model list from the API every time the picker is shown
+    let fetched: string[] = [];
+    let fetchError: string | undefined;
+    await vscode.window.withProgress(
         {
-            title: '✨ Select AI Model for Commit Message',
-            placeHolder: `${defaultModel} — Enter to confirm, this will be remembered`,
-            matchOnDescription: true,
-            ignoreFocusOut: true,
+            location: vscode.ProgressLocation.Window,
+            title: 'BetterCommit: fetching model list from the API...',
+        },
+        async () => {
+            const result = await fetchModelsFromApi(config, apiToken);
+            fetched = result.models;
+            fetchError = result.error;
         },
     );
+
+    // Decide which list to show: the live API list, or the curated fallback
+    let candidates: string[];
+    let title: string;
+    if (fetched.length > 0) {
+        candidates = fetched;
+        title = `✨ Select AI Model — ${fetched.length} models fetched from the API`;
+    } else {
+        candidates = FALLBACK_MODEL_CHOICES.map(m => m.label);
+        title = '✨ Select AI Model — built-in list (API fetch failed)';
+        if (fetchError) {
+            vscode.window.showWarningMessage(
+                `BetterCommit: could not fetch the model list (${fetchError}). Showing the built-in list; you can still enter a custom model name.`,
+            );
+        }
+    }
+
+    // Make sure the current model stays selectable even if absent from the list
+    if (!candidates.includes(defaultModel)) {
+        candidates = [defaultModel, ...candidates];
+    }
+
+    const items: ModelQuickPickItem[] = [
+        {
+            label: CUSTOM_MODEL_LABEL,
+            description: 'Type any model name your provider supports',
+            alwaysShow: true,
+        },
+        ...candidates.map(label => {
+            const meta = FALLBACK_MODEL_CHOICES.find(m => m.label === label);
+            return {
+                label,
+                model: label,
+                description: label === defaultModel ? 'current' : meta?.description,
+                picked: label === defaultModel,
+            };
+        }),
+    ];
+
+    const pick = await vscode.window.showQuickPick(items, {
+        title,
+        placeHolder: `${defaultModel} — Enter to confirm, this will be remembered`,
+        matchOnDescription: true,
+        ignoreFocusOut: true,
+    });
 
     if (!pick) {
         return undefined; // user cancelled
     }
 
+    let chosen: string;
+    if (pick.model === undefined) {
+        // Custom entry — ask for the exact model name
+        const custom = await vscode.window.showInputBox({
+            title: '✨ Custom Model',
+            prompt: 'Enter the model name exactly as your API provider expects it',
+            placeHolder: 'e.g. gpt-4.1-mini, claude-sonnet-4-5, my-local-model',
+            value: defaultModel,
+            ignoreFocusOut: true,
+            validateInput: (value: string) =>
+                value.trim().length === 0 ? 'Model name cannot be empty' : null,
+        });
+        if (custom === undefined) {
+            return undefined; // user cancelled
+        }
+        chosen = custom.trim();
+    } else {
+        chosen = pick.model;
+    }
+
     // Remember model + turn off future prompts
-    await context.globalState.update(LAST_MODEL_KEY, pick.label);
+    await context.globalState.update(LAST_MODEL_KEY, chosen);
     await config.update('promptModel', false, vscode.ConfigurationTarget.Global);
 
-    return pick.label;
+    return chosen;
+}
+
+/**
+ * Command handler: "Select Model" — opens the model picker at any time so
+ * the user can switch models. The list is re-fetched from the configured
+ * API endpoint on every invocation.
+ */
+export async function selectModel(context: vscode.ExtensionContext): Promise<void> {
+    const config = vscode.workspace.getConfiguration('commitMessageGenerator');
+
+    const apiToken = await getApiToken(context.secrets);
+    if (!apiToken) {
+        const setTokenAction = 'Set API Token';
+        const result = await vscode.window.showErrorMessage(
+            'BetterCommit: No API token configured. Please set your API token first.',
+            setTokenAction,
+        );
+        if (result === setTokenAction) {
+            await vscode.commands.executeCommand('bettercommit.setApiToken');
+        }
+        return;
+    }
+
+    const model = await promptModel(config, context, apiToken, true);
+    if (model) {
+        vscode.window.showInformationMessage(`BetterCommit: model switched to ${model}.`);
+    }
 }
 
 /**
@@ -154,7 +282,7 @@ export async function generateAndInjectCommitMessage(
     }
 
     // Prompt for model selection
-    const model = await promptModel(config, context);
+    const model = await promptModel(config, context, apiToken);
     if (!model) {
         // User cancelled
         statusBarItem.text = '✨ AI Commit';
