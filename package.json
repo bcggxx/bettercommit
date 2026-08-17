@@ -53,6 +53,11 @@
                 "command": "bettercommit.setApiToken",
                 "title": "🔑 Set API Token",
                 "category": "BetterCommit"
+            },
+            {
+                "command": "bettercommit.selectModel",
+                "title": "🔄 Select Model",
+                "category": "BetterCommit"
             }
         ],
         "menus": {
@@ -72,6 +77,9 @@
                 {
                     "command": "bettercommit.regenerateCommitMessage",
                     "when": "scmProvider == git"
+                },
+                {
+                    "command": "bettercommit.selectModel"
                 }
             ]
         },
@@ -101,42 +109,12 @@
                 "commitMessageGenerator.model": {
                     "type": "string",
                     "default": "deepseek-v4-flash-free",
-                    "description": "The AI model to use. Works with any model your API provider supports.",
-                    "enum": [
-                        "deepseek-v4-flash-free",
-                        "deepseek-v4-pro",
-                        "deepseek-v4-flash",
-                        "kimi-k2.6",
-                        "kimi-k2.5",
-                        "glm-5.1",
-                        "glm-5",
-                        "mimo-v2.5",
-                        "mimo-v2.5-pro",
-                        "mimo-v2.5-free",
-                        "minimax-m3",
-                        "minimax-m2.7",
-                        "minimax-m2.5",
-                        "minimax-m3-free",
-                        "qwen3.7-max",
-                        "qwen3.7-plus",
-                        "qwen3.6-plus",
-                        "qwen3.6-plus-free",
-                        "nemotron-3-super-free",
-                        "opencode-gen/kimi-k2.6",
-                        "gpt-4o-mini",
-                        "gpt-4o",
-                        "claude-3-5-sonnet",
-                        "claude-3-5-sonnet-20241022",
-                        "claude-3-5-haiku-20241022",
-                        "claude-sonnet-4-20250514",
-                        "claude-opus-4-1-20250805",
-                        "custom (type in settings.json)"
-                    ]
+                    "description": "The AI model to use. Any model name is accepted (custom models included). When switching models via the \"🔄 Select Model\" command or the model picker, the list is fetched live from your API endpoint (GET /v1/models for both OpenAI-compatible and Anthropic protocols), and you can always enter a custom model name manually."
                 },
                 "commitMessageGenerator.promptModel": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Show the model picker before the next generation. After you pick a model it is remembered and this setting is automatically turned off; turn it back on later to choose a different model."
+                    "description": "Show the model picker before the next generation. After you pick a model it is remembered and this setting is automatically turned off; use the \"🔄 Select Model\" command later to switch models (the list is re-fetched from the API every time)."
                 },
                 "commitMessageGenerator.conventionalCommit": {
                     "type": "boolean",

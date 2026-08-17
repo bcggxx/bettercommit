@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { generateAndInjectCommitMessage } from './commitGenerator';
+import { generateAndInjectCommitMessage, selectModel } from './commitGenerator';
 import { storeApiToken, deleteApiToken, getApiToken } from './opencodeClient';
 
 let statusBarItem: vscode.StatusBarItem;
@@ -79,6 +79,15 @@ export function activate(context: vscode.ExtensionContext): void {
         },
     );
     context.subscriptions.push(setTokenCmd);
+
+    // Register command: Select Model (re-fetches the model list from the API)
+    const selectModelCmd = vscode.commands.registerCommand(
+        'bettercommit.selectModel',
+        async () => {
+            await selectModel(context);
+        },
+    );
+    context.subscriptions.push(selectModelCmd);
 
     // Log activation (without any sensitive data)
     console.log('BetterCommit extension activated.');
